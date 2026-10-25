@@ -16,15 +16,39 @@ export type VehicleFilters = {
   category?: string;
 };
 
-class VehicleApiError extends Error {
-  constructor(message: string) {
+export class VehicleApiError extends Error {
+  readonly status: number;
+  readonly code: string | null;
+
+  constructor(message: string, status = 0, code: string | null = null) {
     super(message);
     this.name = 'VehicleApiError';
+    this.status = status;
+    this.code = code;
   }
 }
 
 function getApiBaseUrl() {
   return (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
+}
+
+function getErrorDetails(body: unknown) {
+  if (typeof body !== 'object' || body === null) {
+    return { code: null, message: null };
+  }
+
+  const error = (body as { error?: unknown }).error;
+
+  if (typeof error !== 'object' || error === null) {
+    return { code: null, message: null };
+  }
+
+  const details = error as { code?: unknown; message?: unknown };
+
+  return {
+    code: typeof details.code === 'string' ? details.code : null,
+    message: typeof details.message === 'string' ? details.message : null,
+  };
 }
 
 export async function listVehicles(filters: VehicleFilters = {}) {
@@ -73,4 +97,51 @@ export async function getVehicle(id: string) {
   const vehicles = await listVehicles();
 
   return vehicles.find((vehicle) => vehicle.id === id) ?? null;
+}
+
+export async function purchaseVehicle(id: string, quantity: number) {
+  const accessToken = readAccessToken();
+  const response = await window.fetch(`${getApiBaseUrl()}/vehicles/${id}/purchase`, {
+    body: JSON.stringify({ quantity }),
+    headers: {
+      'Content-Type': 'application/json',
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    },
+    method: 'POST',
+  });
+
+  let body: unknown;
+  try {
+    body = await response.json();
+  } catch {
+    body = undefined;
+  }
+
+  if (!response.ok) {
+    const { code, message } = getErrorDetails(body);
+
+    if (response.status === 401) {
+      throw new VehicleApiError(
+        'Your session has expired. Please sign in again.',
+        response.status,
+        code,
+      );
+    }
+
+    if (response.status === 409 && code === 'INSUFFICIENT_STOCK') {
+      throw new VehicleApiError(
+        'This vehicle no longer has enough stock for that quantity.',
+        response.status,
+        code,
+      );
+    }
+
+    if (response.status === 400 && code === 'VALIDATION_ERROR' && message) {
+      throw new VehicleApiError(message, response.status, code);
+    }
+
+    throw new VehicleApiError('Unable to complete purchase.', response.status, code);
+  }
+
+  return body as { purchase?: unknown };
 }
