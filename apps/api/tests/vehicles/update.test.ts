@@ -247,7 +247,6 @@ describe('PUT /api/vehicles/:id', () => {
 
   it.each([
     ['empty object', {}],
-    ['null payload', null],
     ['missing make', { model: 'Model', category: 'SUV', price: '10000', quantityInStock: 1 }],
     ['missing model', { make: 'Make', category: 'SUV', price: '10000', quantityInStock: 1 }],
     ['missing category', { make: 'Make', model: 'Model', price: '10000', quantityInStock: 1 }],

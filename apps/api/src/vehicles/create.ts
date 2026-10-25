@@ -3,7 +3,7 @@ import type { Request, Response } from 'express';
 
 import { prisma } from '../db/prisma.js';
 
-class VehicleValidationError extends Error {
+export class VehicleValidationError extends Error {
   readonly code = 'VALIDATION_ERROR';
 }
 
@@ -16,7 +16,7 @@ function sendError(response: Response, status: number, code: string, message: st
   });
 }
 
-function parseVehicleInput(body: unknown) {
+export function parseVehicleInput(body: unknown) {
   if (typeof body !== 'object' || body === null) {
     throw new VehicleValidationError(
       'Make, model, category, price, and quantityInStock are required.',
