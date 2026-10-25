@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { AuthRequiredPage, LoginPage, RegisterPage } from './AuthPages';
 import { InventoryPage } from './InventoryPage';
+import { PurchaseHistoryPage } from './PurchaseHistoryPage';
 import { VehicleDetailsPage } from './VehicleDetailsPage';
 
 function getVehicleIdFromPath(pathname: string) {
@@ -39,7 +40,7 @@ function AppRoutes() {
     return <LoginPage />;
   }
 
-  if ((pathname === '/inventory' || vehicleId) && !isAuthenticated) {
+  if ((pathname === '/inventory' || pathname === '/purchases' || vehicleId) && !isAuthenticated) {
     return <AuthRequiredPage />;
   }
 
@@ -49,6 +50,10 @@ function AppRoutes() {
 
   if (pathname === '/inventory') {
     return <InventoryPage />;
+  }
+
+  if (pathname === '/purchases') {
+    return <PurchaseHistoryPage />;
   }
 
   return (
