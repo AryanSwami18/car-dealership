@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { AuthControls } from './AuthControls';
 import { listVehicles, type Vehicle } from './api/vehicles';
 
 const categoryOptions = ['SUV', 'Sedan', 'Coupe', 'Hatchback', 'Truck'];
@@ -24,33 +25,39 @@ function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
     vehicle.quantityInStock === 0 ? 'Sold out' : `${vehicle.quantityInStock} available`;
 
   return (
-    <article className="group overflow-hidden rounded-[1.5rem] border border-[#171717]/15 bg-white/25 transition-[border-color,transform,background-color] duration-300 hover:-translate-y-1 hover:border-[#E56B45]/70 hover:bg-white/50">
-      <div className="relative aspect-[4/3] overflow-hidden bg-[#A8B5A0]">
-        <div className="absolute inset-5 rounded-[1rem] border border-[#F4F1EA]/55" />
-        <div className="absolute -right-8 top-8 size-40 rounded-full bg-[#E56B45]/75 blur-3xl transition-transform duration-500 group-hover:scale-125" />
-        <div className="absolute -bottom-10 left-8 h-24 w-4/5 rounded-[50%] bg-[#171717]/75 blur-xl" />
-        <div className="absolute bottom-16 left-1/2 h-20 w-3/5 -translate-x-1/2 -skew-x-12 rounded-[45%_55%_20%_20%] border border-[#F4F1EA]/75 bg-[#171717]" />
-        <div className="absolute bottom-14 left-[28%] size-8 rounded-full border-4 border-[#171717] bg-[#F4F1EA]" />
-        <div className="absolute bottom-14 right-[28%] size-8 rounded-full border-4 border-[#171717] bg-[#F4F1EA]" />
-        <span className="absolute left-6 top-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#171717]/65">
-          {vehicle.category}
-        </span>
-      </div>
-      <div className="flex items-end justify-between gap-4 p-6">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#171717]/55">
-            {vehicle.make}
-          </p>
-          <h3 className="mt-2 font-display text-3xl tracking-[-0.04em]">{vehicle.model}</h3>
+    <a
+      href={`/vehicles/${vehicle.id}`}
+      aria-label={`View details for ${vehicle.make} ${vehicle.model}`}
+      className="block rounded-[1.5rem] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
+    >
+      <article className="group overflow-hidden rounded-[1.5rem] border border-[#171717]/15 bg-white/25 motion-safe:transition-[border-color,transform,background-color] motion-safe:duration-300 motion-safe:hover:-translate-y-1 hover:border-[#E56B45]/70 hover:bg-white/50">
+        <div className="relative aspect-[4/3] overflow-hidden bg-[#A8B5A0]">
+          <div className="absolute inset-5 rounded-[1rem] border border-[#F4F1EA]/55" />
+          <div className="absolute -right-8 top-8 size-40 rounded-full bg-[#E56B45]/75 blur-3xl motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-125" />
+          <div className="absolute -bottom-10 left-8 h-24 w-4/5 rounded-[50%] bg-[#171717]/75 blur-xl" />
+          <div className="absolute bottom-16 left-1/2 h-20 w-3/5 -translate-x-1/2 -skew-x-12 rounded-[45%_55%_20%_20%] border border-[#F4F1EA]/75 bg-[#171717]" />
+          <div className="absolute bottom-14 left-[28%] size-8 rounded-full border-4 border-[#171717] bg-[#F4F1EA]" />
+          <div className="absolute bottom-14 right-[28%] size-8 rounded-full border-4 border-[#171717] bg-[#F4F1EA]" />
+          <span className="absolute left-6 top-6 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#171717]/65">
+            {vehicle.category}
+          </span>
         </div>
-        <div className="text-right">
-          <p className="text-lg font-semibold tracking-[-0.03em]">{formatPrice(vehicle.price)}</p>
-          <p className="mt-1 text-xs uppercase tracking-[0.12em] text-[#171717]/55">
-            {availability}
-          </p>
+        <div className="flex items-end justify-between gap-4 p-6">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#171717]/55">
+              {vehicle.make}
+            </p>
+            <h3 className="mt-2 font-display text-3xl tracking-[-0.04em]">{vehicle.model}</h3>
+          </div>
+          <div className="text-right">
+            <p className="text-lg font-semibold tracking-[-0.03em]">{formatPrice(vehicle.price)}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.12em] text-[#171717]/55">
+              {availability}
+            </p>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </a>
   );
 }
 
@@ -102,9 +109,12 @@ export function InventoryPage() {
           </span>
           Maison Motoring
         </a>
-        <p className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-[#171717]/55 sm:block">
-          Inventory / 2026
-        </p>
+        <div className="flex items-center gap-5">
+          <p className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-[#171717]/55 sm:block">
+            Inventory / 2026
+          </p>
+          <AuthControls />
+        </div>
       </header>
 
       <main>

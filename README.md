@@ -49,6 +49,20 @@ npm run dev --workspace @car-dealership/api
 npm run dev --workspace @car-dealership/web
 ```
 
+## Frontend authentication storage
+
+The frontend stores the short-lived JWT returned by the existing login endpoint in
+`localStorage` under `accessToken`, and stores only the returned public user metadata under
+`authUser`. This keeps authentication state available across route changes and browser reloads,
+and matches the current API client's bearer-token setup.
+
+`localStorage` is not inherently secure: an XSS vulnerability could read the token. The current
+backend returns the JWT in JSON and does not implement an HTTP-only cookie flow, so introducing a
+cookie-based strategy here would be incomplete. The frontend never stores passwords, treats the
+stored role as presentation state only, and relies on backend authentication and authorization for
+actual access control. A future production hardening step could move the token to a `Secure`,
+`HttpOnly`, `SameSite` cookie flow with the corresponding CSRF protection.
+
 ## My AI Usage
 
 Codex assisted with the initial repository inspection, monorepo scaffolding, development-tool
@@ -61,6 +75,7 @@ must not be used as a substitute for those records.
 
 ## Current status
 
-The repository currently contains only project setup and smoke tests. Authentication, vehicle
-management, inventory logic, database models, and application pages are intentionally not
-implemented yet.
+The repository contains the Maison Motoring landing page, authenticated vehicle inventory and
+vehicle-detail views, and frontend registration/login flows. Backend vehicle and authentication
+features are covered by the existing API implementation and tests. Purchasing and admin dashboard
+UI remain intentionally outside the current frontend scope.

@@ -1,3 +1,5 @@
+import { readAccessToken } from '../auth/storage';
+
 export type Vehicle = {
   id: string;
   make: string;
@@ -25,14 +27,6 @@ function getApiBaseUrl() {
   return (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '');
 }
 
-function getAccessToken() {
-  try {
-    return window.localStorage.getItem('accessToken');
-  } catch {
-    return null;
-  }
-}
-
 export async function listVehicles(filters: VehicleFilters = {}) {
   const searchParams = new URLSearchParams();
   const search = filters.search?.trim();
@@ -48,7 +42,7 @@ export async function listVehicles(filters: VehicleFilters = {}) {
 
   const query = searchParams.toString();
   const endpoint = `${getApiBaseUrl()}/vehicles${query ? `?${query}` : ''}`;
-  const accessToken = getAccessToken();
+  const accessToken = readAccessToken();
   const response = await window.fetch(endpoint, {
     headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : undefined,
   });
@@ -73,4 +67,10 @@ export async function listVehicles(filters: VehicleFilters = {}) {
   }
 
   return (body as { vehicles: Vehicle[] }).vehicles;
+}
+
+export async function getVehicle(id: string) {
+  const vehicles = await listVehicles();
+
+  return vehicles.find((vehicle) => vehicle.id === id) ?? null;
 }

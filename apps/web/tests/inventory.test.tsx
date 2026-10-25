@@ -52,12 +52,14 @@ describe('/inventory vehicle inventory page', () => {
     originalWindowFetch = window.fetch;
     vi.stubGlobal('fetch', fetchMock);
     window.fetch = fetchMock as unknown as typeof window.fetch;
+    window.localStorage.setItem('accessToken', 'test-token');
     window.history.replaceState({}, '', '/');
   });
 
   afterEach(() => {
     window.fetch = originalWindowFetch;
     vi.unstubAllGlobals();
+    window.localStorage.clear();
     window.history.replaceState({}, '', '/');
   });
 
@@ -87,6 +89,23 @@ describe('/inventory vehicle inventory page', () => {
     expect(screen.getByText('Roadster')).toBeInTheDocument();
     expect(screen.getByText(/42,000\.00/)).toBeInTheDocument();
     expect(screen.getByText(/3 available/i)).toBeInTheDocument();
+  });
+
+  it('links each vehicle card to its details page', async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ vehicles }));
+    const vehicle = vehicles.at(0);
+
+    if (!vehicle) {
+      throw new Error('The vehicle fixture is missing.');
+    }
+
+    renderAtPath('/inventory');
+
+    const vehicleLink = await screen.findByRole('link', {
+      name: /view details for aurora motors roadster/i,
+    });
+
+    expect(vehicleLink).toHaveAttribute('href', `/vehicles/${vehicle.id}`);
   });
 
   it('provides accessible search and category filter controls', async () => {

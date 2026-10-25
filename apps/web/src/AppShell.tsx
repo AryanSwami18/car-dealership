@@ -1,7 +1,53 @@
-import { InventoryPage } from './InventoryPage';
+import { useEffect, useState } from 'react';
 
-export function AppShell() {
-  if (window.location.pathname === '/inventory') {
+import { AuthProvider, useAuth } from './auth/AuthContext';
+import { AuthRequiredPage, LoginPage, RegisterPage } from './AuthPages';
+import { InventoryPage } from './InventoryPage';
+import { VehicleDetailsPage } from './VehicleDetailsPage';
+
+function getVehicleIdFromPath(pathname: string) {
+  const match = pathname.match(/^\/vehicles\/([^/]+)\/?$/);
+  const vehicleId = match?.[1];
+
+  return vehicleId ? decodeURIComponent(vehicleId) : null;
+}
+
+function usePathname() {
+  const [pathname, setPathname] = useState(() => window.location.pathname);
+
+  useEffect(() => {
+    const handleLocationChange = () => setPathname(window.location.pathname);
+
+    window.addEventListener('popstate', handleLocationChange);
+
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  return pathname;
+}
+
+function AppRoutes() {
+  const pathname = usePathname();
+  const { isAuthenticated } = useAuth();
+  const vehicleId = getVehicleIdFromPath(pathname);
+
+  if (pathname === '/register') {
+    return <RegisterPage />;
+  }
+
+  if (pathname === '/login') {
+    return <LoginPage />;
+  }
+
+  if ((pathname === '/inventory' || vehicleId) && !isAuthenticated) {
+    return <AuthRequiredPage />;
+  }
+
+  if (vehicleId) {
+    return <VehicleDetailsPage vehicleId={vehicleId} />;
+  }
+
+  if (pathname === '/inventory') {
     return <InventoryPage />;
   }
 
@@ -164,5 +210,13 @@ export function AppShell() {
         <span>Est. 2026</span>
       </footer>
     </div>
+  );
+}
+
+export function AppShell() {
+  return (
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   );
 }
