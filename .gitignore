@@ -1,0 +1,18 @@
+node_modules/
+dist/
+coverage/
+.vite/
+.env
+.env.*
+!.env.example
+!.env.test.example
+*.log
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.tsbuildinfo
+
+# Local PostgreSQL volume and generated Prisma artifacts
+apps/api/prisma/generated/
+postgres-data/
