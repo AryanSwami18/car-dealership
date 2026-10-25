@@ -1,4 +1,10 @@
+import { InventoryPage } from './InventoryPage';
+
 export function AppShell() {
+  if (window.location.pathname === '/inventory') {
+    return <InventoryPage />;
+  }
+
   return (
     <div
       data-testid="app-shell"

@@ -25,6 +25,7 @@ const vehicles = [
 ];
 
 let fetchMock: ReturnType<typeof vi.fn>;
+let originalWindowFetch: typeof window.fetch;
 
 function jsonResponse(body: unknown, status = 200) {
   return {
@@ -48,11 +49,14 @@ function latestVehicleRequestUrl() {
 describe('/inventory vehicle inventory page', () => {
   beforeEach(() => {
     fetchMock = vi.fn();
+    originalWindowFetch = window.fetch;
     vi.stubGlobal('fetch', fetchMock);
+    window.fetch = fetchMock as unknown as typeof window.fetch;
     window.history.replaceState({}, '', '/');
   });
 
   afterEach(() => {
+    window.fetch = originalWindowFetch;
     vi.unstubAllGlobals();
     window.history.replaceState({}, '', '/');
   });
