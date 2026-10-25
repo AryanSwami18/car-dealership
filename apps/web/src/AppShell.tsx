@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { AuthProvider, useAuth } from './auth/AuthContext';
 import { AuthRequiredPage, LoginPage, RegisterPage } from './AuthPages';
+import { AdminAccessRequiredPage, AdminInventoryPage } from './AdminInventoryPage';
 import { InventoryPage } from './InventoryPage';
 import { PurchaseHistoryPage } from './PurchaseHistoryPage';
 import { VehicleDetailsPage } from './VehicleDetailsPage';
@@ -29,7 +30,7 @@ function usePathname() {
 
 function AppRoutes() {
   const pathname = usePathname();
-  const { isAuthenticated } = useAuth();
+  const { isAdmin, isAuthenticated } = useAuth();
   const vehicleId = getVehicleIdFromPath(pathname);
 
   if (pathname === '/register') {
@@ -40,8 +41,18 @@ function AppRoutes() {
     return <LoginPage />;
   }
 
-  if ((pathname === '/inventory' || pathname === '/purchases' || vehicleId) && !isAuthenticated) {
+  if (
+    (pathname === '/inventory' ||
+      pathname === '/purchases' ||
+      pathname === '/admin/inventory' ||
+      vehicleId) &&
+    !isAuthenticated
+  ) {
     return <AuthRequiredPage />;
+  }
+
+  if (pathname === '/admin/inventory' && !isAdmin) {
+    return <AdminAccessRequiredPage />;
   }
 
   if (vehicleId) {
@@ -54,6 +65,10 @@ function AppRoutes() {
 
   if (pathname === '/purchases') {
     return <PurchaseHistoryPage />;
+  }
+
+  if (pathname === '/admin/inventory') {
+    return <AdminInventoryPage />;
   }
 
   return (
