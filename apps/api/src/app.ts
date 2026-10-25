@@ -8,6 +8,7 @@ import { createVehicle } from './vehicles/create.js';
 import { deleteVehicle } from './vehicles/delete.js';
 import { listVehicles } from './vehicles/list.js';
 import { purchaseVehicle } from './vehicles/purchase.js';
+import { restockVehicle } from './vehicles/restock.js';
 import { updateVehicle } from './vehicles/update.js';
 
 export const app = express();
@@ -20,3 +21,4 @@ app.get('/api/vehicles', authenticateRequest, listVehicles);
 app.put('/api/vehicles/:id', authenticateRequest, authorizeRoles('ADMIN'), updateVehicle);
 app.delete('/api/vehicles/:id', authenticateRequest, authorizeRoles('ADMIN'), deleteVehicle);
 app.post('/api/vehicles/:id/purchase', authenticateRequest, purchaseVehicle);
+app.post('/api/vehicles/:id/restock', authenticateRequest, authorizeRoles('ADMIN'), restockVehicle);

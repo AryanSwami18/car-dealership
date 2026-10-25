@@ -21,6 +21,7 @@ const MAX_POSTGRES_INT = 2_147_483_647;
 const prisma = new PrismaClient();
 const createdVehicleIds = new Set<string>();
 const createdUserIds = new Set<string>();
+const originalVehicleUpdate = applicationPrisma.vehicle.update;
 const jwtSecret = process.env.JWT_SECRET;
 
 if (!jwtSecret) {
@@ -160,6 +161,9 @@ describe('POST /api/vehicles/:id/restock', () => {
   });
 
   afterEach(async () => {
+    vi.restoreAllMocks();
+    applicationPrisma.vehicle.update = originalVehicleUpdate;
+
     const vehicleIds = [...createdVehicleIds];
     const userIds = [...createdUserIds];
 
