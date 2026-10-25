@@ -13,7 +13,7 @@ export function AuthControls() {
     <div className="flex items-center gap-4">
       <a
         href="/purchases"
-        aria-label="View purchase history"
+        aria-label="Purchase history"
         className="hidden text-xs font-semibold uppercase tracking-[0.14em] underline decoration-[#E56B45] decoration-2 underline-offset-8 transition-colors hover:text-[#E56B45] sm:inline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
       >
         History

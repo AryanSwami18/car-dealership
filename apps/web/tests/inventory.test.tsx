@@ -78,6 +78,8 @@ describe('/inventory vehicle inventory page', () => {
     renderAtPath('/inventory');
 
     expect(screen.getByRole('status', { name: /loading inventory/i })).toBeInTheDocument();
+    expect(screen.getByTestId('inventory-skeleton-grid')).toBeInTheDocument();
+    expect(screen.getAllByTestId('inventory-skeleton-card')).toHaveLength(3);
   });
 
   it('renders vehicle make, model, price, and stock availability from the API response', async () => {
@@ -144,6 +146,27 @@ describe('/inventory vehicle inventory page', () => {
     expect(latestVehicleRequestUrl().searchParams.get('category')).toBe('Coupe');
   });
 
+  it('resets active search and category filters to the full inventory', async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ vehicles: [] }));
+
+    renderAtPath('/inventory');
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled());
+    fireEvent.change(screen.getByRole('searchbox', { name: /search inventory/i }), {
+      target: { value: 'roadster' },
+    });
+    fireEvent.change(screen.getByRole('combobox', { name: /category/i }), {
+      target: { value: 'Coupe' },
+    });
+
+    await waitFor(() => expect(latestVehicleRequestUrl().search).toContain('category=Coupe'));
+    fireEvent.click(screen.getByRole('button', { name: /reset filters/i }));
+
+    await waitFor(() => expect(latestVehicleRequestUrl().search).toBe(''));
+    expect(screen.getByRole('searchbox', { name: /search inventory/i })).toHaveValue('');
+    expect(screen.getByRole('combobox', { name: /category/i })).toHaveValue('');
+  });
+
   it('shows a useful empty state when no vehicles are returned', async () => {
     fetchMock.mockResolvedValue(jsonResponse({ vehicles: [] }));
 
@@ -166,6 +189,24 @@ describe('/inventory vehicle inventory page', () => {
 
     expect(error).toHaveTextContent(/unable to load inventory/i);
     expect(error).not.toHaveTextContent(/stack|prisma|database url/i);
+  });
+
+  it('offers a retry action after an inventory request fails', async () => {
+    fetchMock
+      .mockResolvedValueOnce(
+        jsonResponse(
+          { error: { code: 'INTERNAL_SERVER_ERROR', message: 'Unable to list vehicles.' } },
+          500,
+        ),
+      )
+      .mockResolvedValueOnce(jsonResponse({ vehicles }));
+
+    renderAtPath('/inventory');
+
+    fireEvent.click(await screen.findByRole('button', { name: /try again/i }));
+
+    expect(await screen.findByText('Aurora Motors')).toBeInTheDocument();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   it('provides a clear navigation path back to the home page', () => {

@@ -68,6 +68,26 @@ describe('vehicle purchase flow', () => {
     expect(quantity).toHaveValue(2);
   });
 
+  it('offers accessible quantity stepper controls bounded by available stock', async () => {
+    fetchMock.mockResolvedValue(jsonResponse({ vehicles: [vehicle] }));
+
+    renderAtPath(`/vehicles/${vehicle.id}`);
+
+    const quantity = await screen.findByRole('spinbutton', { name: /purchase quantity/i });
+    const increase = screen.getByRole('button', { name: /increase purchase quantity/i });
+    const decrease = screen.getByRole('button', { name: /decrease purchase quantity/i });
+
+    expect(decrease).toBeDisabled();
+    fireEvent.click(increase);
+    expect(quantity).toHaveValue(2);
+    fireEvent.click(increase);
+    expect(quantity).toHaveValue(3);
+    expect(increase).toBeDisabled();
+
+    fireEvent.click(decrease);
+    expect(quantity).toHaveValue(2);
+  });
+
   it('disables purchasing when the vehicle is out of stock', async () => {
     fetchMock.mockResolvedValue(jsonResponse({ vehicles: [{ ...vehicle, quantityInStock: 0 }] }));
 
@@ -151,6 +171,10 @@ describe('vehicle purchase flow', () => {
     expect(screen.getByRole('link', { name: /return to inventory/i })).toHaveAttribute(
       'href',
       '/inventory',
+    );
+    expect(screen.getByRole('link', { name: /view purchase history/i })).toHaveAttribute(
+      'href',
+      '/purchases',
     );
 
     const purchaseCall = getPurchaseCalls()[0];
