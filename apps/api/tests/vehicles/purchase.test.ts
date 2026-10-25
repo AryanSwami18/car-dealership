@@ -240,6 +240,14 @@ describe('POST /api/vehicles/:id/purchase', () => {
     expectNotFound(response);
   });
 
+  it.each(['not-a-uuid', '123'])('rejects malformed vehicle ID: %s', async (id) => {
+    const user = await createTestUser();
+
+    const response = await purchaseVehicle(user.id, Role.USER, id, { quantity: 1 });
+
+    expectValidationError(response);
+  });
+
   it.each([
     ['missing quantity', {}],
     ['zero quantity', { quantity: 0 }],

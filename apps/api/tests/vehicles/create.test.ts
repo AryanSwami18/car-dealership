@@ -168,6 +168,20 @@ describe('POST /api/vehicles', () => {
     expectValidationError(response);
   });
 
+  it('rejects vehicle text fields and prices outside supported ranges', async () => {
+    const response = await request(app)
+      .post('/api/vehicles')
+      .set('Authorization', `Bearer ${createToken('ADMIN')}`)
+      .send(
+        vehiclePayload({
+          make: 'A'.repeat(101),
+          price: '10000000000.00',
+        }),
+      );
+
+    expectValidationError(response);
+  });
+
   it.each([
     { field: 'price', value: 'not-a-number' },
     { field: 'quantityInStock', value: 'five' },

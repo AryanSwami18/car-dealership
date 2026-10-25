@@ -3,6 +3,9 @@ import type { Request, Response } from 'express';
 
 import { prisma } from '../db/prisma.js';
 
+const MAX_VEHICLE_TEXT_LENGTH = 100;
+const MAX_VEHICLE_PRICE = new Prisma.Decimal('9999999999.99');
+
 export class VehicleValidationError extends Error {
   readonly code = 'VALIDATION_ERROR';
 }
@@ -32,6 +35,14 @@ export function parseVehicleInput(body: unknown) {
     throw new VehicleValidationError('Make, model, and category are required.');
   }
 
+  if (
+    make.length > MAX_VEHICLE_TEXT_LENGTH ||
+    model.length > MAX_VEHICLE_TEXT_LENGTH ||
+    category.length > MAX_VEHICLE_TEXT_LENGTH
+  ) {
+    throw new VehicleValidationError('Make, model, and category must be at most 100 characters.');
+  }
+
   if (input.price === undefined || input.price === null || input.price === '') {
     throw new VehicleValidationError('Price is required.');
   }
@@ -43,8 +54,12 @@ export function parseVehicleInput(body: unknown) {
     throw new VehicleValidationError('Price must be a non-negative number.');
   }
 
-  if (!price.isFinite() || price.isNegative()) {
-    throw new VehicleValidationError('Price must be a non-negative number.');
+  if (!price.isFinite() || price.isNegative() || price.gt(MAX_VEHICLE_PRICE)) {
+    throw new VehicleValidationError('Price must be between 0 and 9999999999.99.');
+  }
+
+  if (price.decimalPlaces() > 2) {
+    throw new VehicleValidationError('Price must have no more than two decimal places.');
   }
 
   if (input.quantityInStock === undefined || input.quantityInStock === null) {
@@ -53,7 +68,7 @@ export function parseVehicleInput(body: unknown) {
 
   if (
     typeof input.quantityInStock !== 'number' ||
-    !Number.isInteger(input.quantityInStock) ||
+    !Number.isSafeInteger(input.quantityInStock) ||
     input.quantityInStock < 0
   ) {
     throw new VehicleValidationError('quantityInStock must be a non-negative integer.');

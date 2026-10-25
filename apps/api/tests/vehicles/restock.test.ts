@@ -21,7 +21,7 @@ const MAX_POSTGRES_INT = 2_147_483_647;
 const prisma = new PrismaClient();
 const createdVehicleIds = new Set<string>();
 const createdUserIds = new Set<string>();
-const originalVehicleUpdate = applicationPrisma.vehicle.update;
+const originalVehicleUpdateMany = applicationPrisma.vehicle.updateMany;
 const jwtSecret = process.env.JWT_SECRET;
 
 if (!jwtSecret) {
@@ -162,7 +162,7 @@ describe('POST /api/vehicles/:id/restock', () => {
 
   afterEach(async () => {
     vi.restoreAllMocks();
-    applicationPrisma.vehicle.update = originalVehicleUpdate;
+    applicationPrisma.vehicle.updateMany = originalVehicleUpdateMany;
 
     const vehicleIds = [...createdVehicleIds];
     const userIds = [...createdUserIds];
@@ -285,6 +285,14 @@ describe('POST /api/vehicles/:id/restock', () => {
     expectNotFound(response);
   });
 
+  it.each(['not-a-uuid', '123'])('rejects malformed vehicle ID: %s', async (id) => {
+    const admin = await createTestUser(Role.ADMIN);
+
+    const response = await restockVehicle(admin.id, Role.ADMIN, id, { quantity: 1 });
+
+    expectValidationError(response);
+  });
+
   it('preserves all other vehicle fields and uses the safe vehicle serializer', async () => {
     const admin = await createTestUser(Role.ADMIN);
     const vehicle = await createTestVehicle({
@@ -326,11 +334,28 @@ describe('POST /api/vehicles/:id/restock', () => {
     expect(persistedVehicle?.quantityInStock).toBe(MAX_POSTGRES_INT);
   });
 
+  it('protects concurrent restocks from exceeding the PostgreSQL integer limit', async () => {
+    const admin = await createTestUser(Role.ADMIN);
+    const vehicle = await createTestVehicle({ quantityInStock: MAX_POSTGRES_INT - 1 });
+
+    const responses = await Promise.all([
+      restockVehicle(admin.id, Role.ADMIN, vehicle.id, { quantity: 1 }),
+      restockVehicle(admin.id, Role.ADMIN, vehicle.id, { quantity: 1 }),
+    ]);
+
+    expect(responses.map((response) => response.status).sort()).toEqual([200, 409]);
+
+    const persistedVehicle = await prisma.vehicle.findUnique({
+      where: { id: vehicle.id },
+    });
+    expect(persistedVehicle?.quantityInStock).toBe(MAX_POSTGRES_INT);
+  });
+
   it('returns a generic safe error when the database update fails', async () => {
     const admin = await createTestUser(Role.ADMIN);
     const vehicle = await createTestVehicle({ quantityInStock: 3 });
     const updateSpy = vi
-      .spyOn(applicationPrisma.vehicle, 'update')
+      .spyOn(applicationPrisma.vehicle, 'updateMany')
       .mockRejectedValueOnce(new Error('database internals must not leak'));
 
     const response = await restockVehicle(admin.id, Role.ADMIN, vehicle.id, { quantity: 1 });

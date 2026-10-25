@@ -110,6 +110,19 @@ describe('POST /api/auth/register', () => {
     expectValidationError(response);
   });
 
+  it('rejects registration fields that exceed their supported lengths', async () => {
+    const response = await request(app)
+      .post('/api/auth/register')
+      .send(
+        registrationPayload({
+          name: 'A'.repeat(121),
+          email: `${'a'.repeat(310)}@example.test`,
+        }),
+      );
+
+    expectValidationError(response);
+  });
+
   it.each(['short', 'alllowercase1', 'ALLUPPERCASE1', 'NoNumber'])(
     'rejects a password that does not meet the strength rules: %s',
     async (password) => {

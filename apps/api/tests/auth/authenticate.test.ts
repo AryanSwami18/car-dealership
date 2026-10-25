@@ -122,6 +122,20 @@ describe('JWT authentication middleware', () => {
     expectSafeUnauthorized(response);
   });
 
+  it('rejects a token signed with an unsupported algorithm', async () => {
+    const token = jwt.sign({ role: 'USER' }, configuredJwtSecret, {
+      algorithm: 'HS384',
+      expiresIn: tokenLifetimeInSeconds,
+      subject: testUserId,
+    });
+
+    const response = await request(protectedApp)
+      .get('/protected')
+      .set('Authorization', `Bearer ${token}`);
+
+    expectSafeUnauthorized(response);
+  });
+
   it('extracts the verified user ID and role from JWT claims', async () => {
     const token = createToken({ role: 'ADMIN', subject: 'admin-user-456' });
 

@@ -15,6 +15,9 @@ class InsufficientStockError extends Error {
   readonly code = 'INSUFFICIENT_STOCK';
 }
 
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const MAX_POSTGRES_INT = 2_147_483_647;
+
 function sendError(response: Response, status: number, code: string, message: string) {
   response.status(status).json({
     error: {
@@ -31,7 +34,12 @@ function parseQuantity(body: unknown) {
 
   const quantity = (body as Record<string, unknown>).quantity;
 
-  if (typeof quantity !== 'number' || !Number.isInteger(quantity) || quantity <= 0) {
+  if (
+    typeof quantity !== 'number' ||
+    !Number.isSafeInteger(quantity) ||
+    quantity <= 0 ||
+    quantity > MAX_POSTGRES_INT
+  ) {
     throw new PurchaseValidationError('Quantity must be a positive integer.');
   }
 
@@ -61,8 +69,8 @@ export async function purchaseVehicle(request: Request, response: Response) {
     const vehicleId = request.params.id;
     const userId = (response.locals.authenticatedUser as { id?: unknown } | undefined)?.id;
 
-    if (typeof vehicleId !== 'string' || vehicleId.length === 0) {
-      throw new PurchaseValidationError('Vehicle ID is required.');
+    if (typeof vehicleId !== 'string' || !UUID_PATTERN.test(vehicleId)) {
+      throw new PurchaseValidationError('Vehicle ID must be a valid UUID.');
     }
 
     if (typeof userId !== 'string') {

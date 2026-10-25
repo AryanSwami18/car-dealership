@@ -5,6 +5,9 @@ import type { Request, Response } from 'express';
 import { prisma } from '../db/prisma.js';
 
 const PASSWORD_MIN_LENGTH = 8;
+const MAX_NAME_LENGTH = 120;
+const MAX_EMAIL_LENGTH = 320;
+const MAX_PASSWORD_LENGTH = 128;
 const PASSWORD_HASH_ROUNDS = 12;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -24,6 +27,14 @@ function parseRegistrationInput(body: unknown) {
 
   if (!name || !email || !password) {
     throw new RegistrationValidationError('Name, email, and password are required.');
+  }
+
+  if (name.length > MAX_NAME_LENGTH || email.length > MAX_EMAIL_LENGTH) {
+    throw new RegistrationValidationError('Name or email is too long.');
+  }
+
+  if (password.length > MAX_PASSWORD_LENGTH) {
+    throw new RegistrationValidationError('Password is too long.');
   }
 
   if (!EMAIL_PATTERN.test(email)) {

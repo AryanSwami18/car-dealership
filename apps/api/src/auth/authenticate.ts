@@ -1,6 +1,10 @@
 import jwt, { type JwtPayload } from 'jsonwebtoken';
 import type { RequestHandler } from 'express';
 
+import { loadConfig } from '../config/env.js';
+
+const config = loadConfig();
+
 type AuthenticatedUser = {
   id: string;
   role: string;
@@ -38,19 +42,8 @@ export const authenticateRequest: RequestHandler = (request, response, next) => 
     return;
   }
 
-  const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    response.status(500).json({
-      error: {
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'Authentication service unavailable.',
-      },
-    });
-    return;
-  }
-
   try {
-    const verified = jwt.verify(token, secret);
+    const verified = jwt.verify(token, config.jwtSecret, { algorithms: ['HS256'] });
 
     if (typeof verified === 'string' || !isAuthenticatedUser(verified)) {
       sendUnauthorized(response);

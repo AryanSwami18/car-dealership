@@ -2,12 +2,14 @@ import { compare, hashSync } from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import type { Request, Response } from 'express';
 
+import { loadConfig } from '../config/env.js';
 import { prisma } from '../db/prisma.js';
 
 const TOKEN_LIFETIME_IN_SECONDS = 60 * 60;
 const PASSWORD_HASH_ROUNDS = 12;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DUMMY_PASSWORD_HASH = hashSync('not-a-real-password', PASSWORD_HASH_ROUNDS);
+const config = loadConfig();
 
 class LoginValidationError extends Error {
   readonly code = 'VALIDATION_ERROR';
@@ -53,12 +55,8 @@ export async function loginUser(request: Request, response: Response) {
       return;
     }
 
-    const secret = process.env.JWT_SECRET;
-    if (!secret) {
-      throw new Error('JWT_SECRET is not configured.');
-    }
-
-    const token = jwt.sign({ role: user.role }, secret, {
+    const token = jwt.sign({ role: user.role }, config.jwtSecret, {
+      algorithm: 'HS256',
       expiresIn: TOKEN_LIFETIME_IN_SECONDS,
       subject: user.id,
     });

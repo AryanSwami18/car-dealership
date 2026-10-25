@@ -53,26 +53,40 @@ export async function restockVehicle(request: Request, response: Response) {
     }
 
     const quantity = parseQuantity(request.body);
-    const vehicle = await prisma.vehicle.findUnique({
-      where: { id: vehicleId },
-    });
-
-    if (!vehicle) {
-      throw new VehicleNotFoundError('Vehicle not found.');
-    }
-
-    if (quantity > MAX_POSTGRES_INT - vehicle.quantityInStock) {
-      throw new StockLimitExceededError('Vehicle stock limit exceeded.');
-    }
-
-    const updatedVehicle = await prisma.vehicle.update({
-      where: { id: vehicleId },
+    const stockUpdate = await prisma.vehicle.updateMany({
+      where: {
+        id: vehicleId,
+        quantityInStock: {
+          lte: MAX_POSTGRES_INT - quantity,
+        },
+      },
       data: {
         quantityInStock: {
           increment: quantity,
         },
       },
     });
+
+    if (stockUpdate.count !== 1) {
+      const vehicle = await prisma.vehicle.findUnique({
+        where: { id: vehicleId },
+        select: { id: true },
+      });
+
+      if (!vehicle) {
+        throw new VehicleNotFoundError('Vehicle not found.');
+      }
+
+      throw new StockLimitExceededError('Vehicle stock limit exceeded.');
+    }
+
+    const updatedVehicle = await prisma.vehicle.findUnique({
+      where: { id: vehicleId },
+    });
+
+    if (!updatedVehicle) {
+      throw new VehicleNotFoundError('Vehicle not found.');
+    }
 
     response.status(200).json({
       vehicle: serializeVehicle(updatedVehicle),

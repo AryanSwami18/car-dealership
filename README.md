@@ -39,14 +39,46 @@ pg_isready -h localhost -p 5432
 
 Update the local `DATABASE_URL` in `.env` with the password chosen for `inventory_app`.
 PostgreSQL remains a local service and is not exposed by this project configuration. No
-application database models or migrations have been added yet; those will be introduced with
-the relevant feature tests.
+application credentials are logged by the API. The API validates its required configuration at
+startup and exits with a non-sensitive error if it is incomplete.
+
+The API uses these runtime variables:
+
+- `NODE_ENV` — `development`, `test`, or `production`.
+- `API_PORT` — API listen port, defaulted in `.env.example` to `3000`.
+- `DATABASE_URL` — PostgreSQL connection URL used by Prisma.
+- `JWT_SECRET` — at least 32 random characters; never commit or print it.
+- `CORS_ORIGINS` — comma-separated explicit frontend origins. Wildcards are rejected.
+- `BODY_SIZE_LIMIT` — Express JSON request limit, such as `100kb`.
+- `VITE_API_BASE_URL` — frontend API base URL.
+
+Apply the existing Prisma migration to a local development database with:
+
+```bash
+npx prisma migrate deploy --schema apps/api/prisma/schema.prisma
+npx prisma generate --schema apps/api/prisma/schema.prisma
+```
+
+The API exposes `GET /health`, which returns only `{ "status": "ok" }` and does not query the
+database. CORS allows only the origins listed in `CORS_ORIGINS`; local development defaults are
+documented in `.env.example`, while production must provide an explicit allowlist.
 
 ## Development commands
 
 ```bash
 npm run dev --workspace @car-dealership/api
 npm run dev --workspace @car-dealership/web
+```
+
+Run the checks independently when diagnosing a failure:
+
+```bash
+npm test --workspace @car-dealership/api
+npm test --workspace @car-dealership/web
+npm run typecheck
+npm run lint
+npm run format:check
+npm run build
 ```
 
 ## Frontend authentication storage
@@ -76,6 +108,6 @@ must not be used as a substitute for those records.
 ## Current status
 
 The repository contains the Maison Motoring landing page, authenticated vehicle inventory and
-vehicle-detail views, and frontend registration/login flows. Backend vehicle and authentication
-features are covered by the existing API implementation and tests. Purchasing and admin dashboard
-UI remain intentionally outside the current frontend scope.
+vehicle-detail views, registration/login flows, purchase history, vehicle purchasing, and an
+admin inventory-management UI. The backend exposes authenticated vehicle, purchase, and
+purchase-history APIs. AWS deployment remains intentionally outside the local development scope.
