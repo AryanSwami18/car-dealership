@@ -48,4 +48,30 @@ describe('public landing page', () => {
       }),
     ).toBeInTheDocument();
   });
+
+  it('keeps the editorial system accessible across the hero and featured edit', () => {
+    render(<AppShell />);
+
+    expect(screen.getByRole('img', { name: 'Studio vehicle study' })).toBeInTheDocument();
+
+    const featuredInventory = screen.getByRole('region', {
+      name: /featured inventory/i,
+    });
+
+    expect(within(featuredInventory).getAllByRole('img').length).toBeGreaterThanOrEqual(3);
+    expect(
+      within(featuredInventory).getByRole('link', { name: /browse all vehicles/i }),
+    ).toHaveClass('maison-link');
+  });
+
+  it('provides mobile-safe navigation and reduced-motion-aware primary actions', () => {
+    render(<AppShell />);
+
+    const navigation = screen.getByRole('navigation', { name: /primary navigation/i });
+    expect(navigation).toHaveClass('maison-nav');
+    expect(within(navigation).getByRole('link', { name: /the edit/i })).toBeVisible();
+
+    const primaryAction = screen.getByRole('link', { name: /explore inventory/i });
+    expect(primaryAction).toHaveClass('maison-button', 'motion-safe:transition');
+  });
 });

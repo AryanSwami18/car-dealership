@@ -1,13 +1,17 @@
 @import 'tailwindcss';
 
 @theme {
+  --color-maison-surface: #f4f1ea;
+  --color-maison-ink: #171717;
+  --color-maison-persimmon: #e56b45;
+  --color-maison-sage: #a8b5a0;
   --font-display: 'Iowan Old Style', 'Baskerville', 'Times New Roman', serif;
   --font-sans: 'Inter', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
 }
 
 :root {
-  color: #171717;
-  background: #f4f1ea;
+  color: var(--color-maison-ink);
+  background: var(--color-maison-surface);
   font-family: var(--font-sans);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,12 +24,512 @@ html {
 body {
   min-width: 320px;
   margin: 0;
-  background: #f4f1ea;
+  background: var(--color-maison-surface);
 }
 
 ::selection {
-  color: #f4f1ea;
-  background: #e56b45;
+  color: var(--color-maison-surface);
+  background: var(--color-maison-persimmon);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-maison-persimmon);
+    outline-offset: 4px;
+  }
+}
+
+@layer components {
+  .maison-page {
+    min-height: 100vh;
+    overflow-x: hidden;
+    color: var(--color-maison-ink);
+    background: var(--color-maison-surface);
+  }
+
+  .maison-container {
+    width: 100%;
+    max-width: 90rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .maison-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.5rem;
+  }
+
+  .maison-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-maison-ink);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .maison-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--color-maison-surface);
+    font-size: 0.625rem;
+    letter-spacing: 0;
+    background: var(--color-maison-ink);
+    border-radius: 9999px;
+    transition: transform 300ms ease;
+  }
+
+  .maison-brand:hover .maison-mark {
+    transform: rotate(12deg);
+  }
+
+  .maison-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .maison-nav-link {
+    color: var(--color-maison-ink);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .maison-nav-link:hover,
+  .maison-nav-link:focus-visible {
+    color: var(--color-maison-persimmon);
+  }
+
+  .maison-eyebrow {
+    color: var(--color-maison-persimmon);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .maison-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    line-height: 1.2;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+      background-color 280ms ease,
+      border-color 280ms ease,
+      color 280ms ease,
+      transform 280ms ease;
+  }
+
+  .maison-button--primary {
+    color: var(--color-maison-surface);
+    background: var(--color-maison-ink);
+  }
+
+  .maison-button--primary:hover {
+    color: var(--color-maison-surface);
+    background: var(--color-maison-persimmon);
+    transform: translateY(-0.25rem);
+  }
+
+  .maison-button--quiet {
+    color: var(--color-maison-ink);
+    border-color: color-mix(in srgb, var(--color-maison-ink) 22%, transparent);
+  }
+
+  .maison-button--quiet:hover {
+    color: var(--color-maison-surface);
+    background: var(--color-maison-ink);
+    border-color: var(--color-maison-ink);
+  }
+
+  .maison-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-maison-ink);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-maison-persimmon);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.5rem;
+    text-transform: uppercase;
+    transition: color 200ms ease;
+  }
+
+  .maison-link:hover,
+  .maison-link:focus-visible {
+    color: var(--color-maison-persimmon);
+  }
+
+  .maison-hero {
+    display: grid;
+    gap: 3rem;
+    padding-block: 3rem 6rem;
+  }
+
+  .maison-hero-copy {
+    max-width: 48rem;
+  }
+
+  .maison-hero-heading {
+    max-width: 52rem;
+    margin-top: 2rem;
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 8vw, 8.5rem);
+    font-weight: 400;
+    letter-spacing: -0.065em;
+    line-height: 0.88;
+  }
+
+  .maison-hero-heading strong {
+    color: var(--color-maison-persimmon);
+    font-weight: inherit;
+  }
+
+  .maison-hero-intro {
+    max-width: 28rem;
+    margin-top: 2.5rem;
+    color: color-mix(in srgb, var(--color-maison-ink) 65%, transparent);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .maison-section {
+    padding-block: 5rem 7rem;
+  }
+
+  .maison-section--rule {
+    border-top: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+  }
+
+  .maison-section-heading {
+    display: grid;
+    align-items: end;
+    gap: 2rem;
+  }
+
+  .maison-section-title {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 400;
+    letter-spacing: -0.055em;
+    line-height: 0.95;
+  }
+
+  .maison-section-copy {
+    max-width: 24rem;
+    color: color-mix(in srgb, var(--color-maison-ink) 65%, transparent);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .maison-feature-grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 4rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+  }
+
+  .maison-feature-card {
+    min-width: 0;
+  }
+
+  .maison-feature-card > a {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .maison-feature-card h3 {
+    margin-top: 1.25rem;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    transition: color 200ms ease;
+  }
+
+  .maison-feature-card a:hover h3,
+  .maison-feature-card a:focus-visible h3 {
+    color: var(--color-maison-persimmon);
+  }
+
+  .maison-feature-card p {
+    max-width: 18rem;
+    margin-top: 0.75rem;
+    color: color-mix(in srgb, var(--color-maison-ink) 60%, transparent);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .maison-feature-number {
+    margin-top: 1.25rem;
+    color: var(--color-maison-persimmon);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+
+  .maison-vehicle-art {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--color-maison-sage);
+  }
+
+  .maison-vehicle-art--hero {
+    min-height: 27.5rem;
+    padding: 1.25rem;
+    border-radius: 2rem;
+  }
+
+  .maison-vehicle-art--compact {
+    min-height: 13rem;
+    border-radius: 1.5rem;
+  }
+
+  .maison-vehicle-art--warm {
+    background: color-mix(in srgb, var(--color-maison-sage) 75%, var(--color-maison-persimmon));
+  }
+
+  .maison-vehicle-art--dark {
+    background: color-mix(in srgb, var(--color-maison-sage) 45%, var(--color-maison-ink));
+  }
+
+  .maison-vehicle-art__frame {
+    position: absolute;
+    inset: 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--color-maison-surface) 55%, transparent);
+    border-radius: 1.5rem;
+  }
+
+  .maison-vehicle-art--compact .maison-vehicle-art__frame {
+    inset: 0.875rem;
+    border-radius: 1rem;
+  }
+
+  .maison-vehicle-art__orb {
+    position: absolute;
+    top: 2.5rem;
+    right: -4rem;
+    width: 11rem;
+    height: 11rem;
+    background: color-mix(in srgb, var(--color-maison-persimmon) 78%, transparent);
+    border-radius: 9999px;
+    filter: blur(2.5rem);
+  }
+
+  .maison-vehicle-art__shadow {
+    position: absolute;
+    right: 2.5rem;
+    bottom: 4rem;
+    left: 2.5rem;
+    height: 5rem;
+    background: color-mix(in srgb, var(--color-maison-ink) 78%, transparent);
+    border-radius: 50%;
+    filter: blur(1.25rem);
+  }
+
+  .maison-vehicle-art__body {
+    position: absolute;
+    right: 11%;
+    bottom: 7rem;
+    left: 11%;
+    height: 10rem;
+    background: var(--color-maison-ink);
+    border: 2px solid color-mix(in srgb, var(--color-maison-surface) 80%, transparent);
+    border-radius: 45% 55% 20% 20%;
+    box-shadow: 0 1.5rem 2rem color-mix(in srgb, var(--color-maison-ink) 50%, transparent);
+    transform: skewX(-12deg);
+  }
+
+  .maison-vehicle-art--compact .maison-vehicle-art__body {
+    bottom: 3.75rem;
+    height: 5rem;
+  }
+
+  .maison-vehicle-art__wheel {
+    position: absolute;
+    bottom: 6.5rem;
+    width: 4rem;
+    height: 4rem;
+    background: var(--color-maison-surface);
+    border: 0.5rem solid var(--color-maison-ink);
+    border-radius: 9999px;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-maison-ink) 20%, transparent);
+  }
+
+  .maison-vehicle-art__wheel--left {
+    left: 22%;
+  }
+
+  .maison-vehicle-art__wheel--right {
+    right: 22%;
+  }
+
+  .maison-vehicle-art--compact .maison-vehicle-art__wheel {
+    bottom: 3.25rem;
+    width: 2rem;
+    height: 2rem;
+    border-width: 0.3rem;
+  }
+
+  .maison-vehicle-art__label,
+  .maison-vehicle-art__footer {
+    position: absolute;
+    z-index: 1;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .maison-vehicle-art__label {
+    top: 2.5rem;
+    left: 2.5rem;
+    color: color-mix(in srgb, var(--color-maison-ink) 70%, transparent);
+  }
+
+  .maison-vehicle-art__footer {
+    right: 2.5rem;
+    bottom: 2.5rem;
+    left: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    color: var(--color-maison-surface);
+  }
+
+  .maison-vehicle-art--compact .maison-vehicle-art__label {
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+
+  .maison-vehicle-art--compact .maison-vehicle-art__footer {
+    right: 1.5rem;
+    bottom: 1.25rem;
+    left: 1.5rem;
+  }
+
+  .maison-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-block: 2rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+    color: color-mix(in srgb, var(--color-maison-ink) 55%, transparent);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+}
+
+@media (min-width: 640px) {
+  .maison-container {
+    padding-inline: 2.5rem;
+  }
+
+  .maison-nav {
+    gap: 1.5rem;
+  }
+
+  .maison-hero {
+    padding-block: 4.5rem 9rem;
+  }
+
+  .maison-hero-intro {
+    font-size: 1.125rem;
+  }
+
+  .maison-feature-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .maison-feature-card:not(:last-child) {
+    padding-right: 1.5rem;
+    border-right: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+  }
+
+  .maison-footer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 639px) {
+  .maison-header {
+    flex-wrap: wrap;
+  }
+
+  .maison-header .maison-nav {
+    flex-basis: 100%;
+    justify-content: flex-end;
+    padding-top: 0.75rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+  }
+}
+
+@media (min-width: 1024px) {
+  .maison-header {
+    padding-block: 1.5rem;
+  }
+
+  .maison-hero {
+    grid-template-columns: minmax(0, 1.05fr) minmax(22.5rem, 0.95fr);
+    align-items: center;
+    gap: 4rem;
+    padding-block: 5rem 9rem;
+  }
+
+  .maison-vehicle-art--hero {
+    min-height: 40rem;
+  }
+
+  .maison-section {
+    padding-block: 7rem;
+  }
+
+  .maison-section-heading {
+    grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.8fr) auto;
+    gap: 3rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
