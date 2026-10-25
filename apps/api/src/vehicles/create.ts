@@ -68,7 +68,7 @@ function parseVehicleInput(body: unknown) {
   };
 }
 
-function serializeVehicle(vehicle: {
+export function serializeVehicle(vehicle: {
   id: string;
   make: string;
   model: string;
