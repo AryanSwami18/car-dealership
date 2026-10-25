@@ -8,5 +8,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['tests/**/*.test.ts'],
+    // API tests share the dedicated PostgreSQL database and clean up their own records.
+    fileParallelism: false,
   },
 });
