@@ -38,59 +38,44 @@ function PurchaseCard({ purchase }: { purchase: PurchaseHistoryItem }) {
   return (
     <article
       aria-labelledby={`purchase-${purchase.id}`}
-      className="rounded-[1.5rem] border border-[#171717]/15 bg-white/20 p-6 sm:p-8"
+      className="maison-purchase-card maison-motion-enter"
     >
-      <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+      <div className="maison-purchase-card__header">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E56B45]">
-            Purchase record
-          </p>
-          <h2
-            id={`purchase-${purchase.id}`}
-            className="mt-3 font-display text-4xl tracking-[-0.05em]"
-          >
+          <p className="maison-eyebrow">Purchase record</p>
+          <h2 id={`purchase-${purchase.id}`} className="maison-purchase-card__title">
             {vehicleName}
           </h2>
-          <p className="mt-2 text-sm uppercase tracking-[0.16em] text-[#171717]/55">
-            {purchase.vehicle.category}
-          </p>
+          <p className="maison-purchase-card__category">{purchase.vehicle.category}</p>
         </div>
         <a
           href={`/vehicles/${purchase.vehicleId}`}
           aria-label={`View ${vehicleName}`}
-          className="inline-flex items-center gap-2 self-start text-xs font-semibold uppercase tracking-[0.14em] underline decoration-[#E56B45] decoration-2 underline-offset-8 transition-colors hover:text-[#E56B45] motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
+          className="maison-link"
         >
           View vehicle
           <span aria-hidden="true">↗</span>
         </a>
       </div>
 
-      <dl className="mt-8 grid gap-5 border-y border-[#171717]/15 py-5 sm:grid-cols-4">
+      <dl className="maison-purchase-card__details">
         <div>
-          <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[#171717]/55">
-            Quantity
-          </dt>
-          <dd className="mt-2 text-lg font-semibold">
+          <dt>Quantity</dt>
+          <dd>
             {purchase.quantity} {purchase.quantity === 1 ? 'vehicle' : 'vehicles'}
           </dd>
         </div>
         <div>
-          <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[#171717]/55">
-            Purchase price
-          </dt>
-          <dd className="mt-2 text-lg font-semibold">{formatPrice(purchase.unitPrice)}</dd>
+          <dt>Purchase price</dt>
+          <dd>{formatPrice(purchase.unitPrice)}</dd>
         </div>
         <div>
-          <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[#171717]/55">
-            Total
-          </dt>
-          <dd className="mt-2 text-lg font-semibold">{formatPrice(total)}</dd>
+          <dt>Total</dt>
+          <dd>{formatPrice(total)}</dd>
         </div>
         <div>
-          <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-[#171717]/55">
-            Purchased
-          </dt>
-          <dd className="mt-2 text-lg font-semibold">
+          <dt>Purchased</dt>
+          <dd>
             <time dateTime={purchase.purchasedAt}>{formatPurchaseDate(purchase.purchasedAt)}</time>
           </dd>
         </div>
@@ -139,61 +124,48 @@ export function PurchaseHistoryPage() {
   }, [signOut]);
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#F4F1EA] text-[#171717]">
-      <header className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-6 lg:px-12">
-        <a
-          href="/inventory"
-          aria-label="Back to inventory"
-          className="group inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
-        >
-          <span className="text-lg motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:-translate-x-1">
-            ←
-          </span>
+    <div className="maison-page maison-motion-enter">
+      <header className="maison-container maison-header">
+        <a href="/inventory" aria-label="Back to inventory" className="maison-back-link">
+          <span aria-hidden="true">←</span>
           Back to inventory
         </a>
-        <div className="flex items-center gap-5">
-          <span className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-[#171717]/55 sm:block">
-            Maison Motoring / {isAdmin ? 'All records' : 'Your records'}
-          </span>
+        <div className="maison-page-header-meta">
+          <p>Maison Motoring / {isAdmin ? 'All records' : 'Your records'}</p>
           <AuthControls />
         </div>
       </header>
 
       <main>
-        <section className="mx-auto max-w-[1440px] px-6 pb-20 pt-12 lg:px-12 lg:pb-32 lg:pt-24">
-          <div className="max-w-3xl">
-            <p className="mb-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#E56B45]">
+        <section className="maison-container maison-section maison-history-section">
+          <div className="maison-history-intro">
+            <p className="maison-eyebrow">
               Maison Motoring / {isAdmin ? 'Collection records' : 'Your road so far'}
             </p>
-            <h1 className="font-display text-[clamp(3.5rem,8vw,7rem)] leading-[0.88] tracking-[-0.07em]">
+            <h1 className="maison-history-title">
               {isAdmin ? 'All purchase history.' : 'Purchase history.'}
             </h1>
-            <p className="mt-7 max-w-xl text-base leading-7 text-[#171717]/65">
+            <p className="maison-history-copy">
               A quiet record of the vehicles chosen and the prices held at the moment of purchase.
             </p>
           </div>
 
-          <div className="mt-16">
+          <div className="maison-history-content">
             {isLoading && (
               <div
                 role="status"
                 aria-label="Loading purchase history"
-                className="py-24 text-center"
+                className="maison-loading-state maison-loading-state--detail"
               >
-                <p className="font-display text-4xl tracking-[-0.05em]">Loading your records…</p>
-                <p className="mt-3 text-sm text-[#171717]/55">Gathering the road behind you.</p>
+                <p className="maison-state-panel__title">Loading your records…</p>
+                <p className="maison-state-panel__copy">Gathering the road behind you.</p>
               </div>
             )}
 
             {!isLoading && hasError && (
-              <div
-                role="alert"
-                className="rounded-[2rem] border border-[#E56B45]/45 bg-[#E56B45]/10 px-6 py-12 sm:px-10"
-              >
-                <p className="font-display text-4xl tracking-[-0.05em]">
-                  Unable to load purchase history.
-                </p>
-                <p className="mt-3 max-w-lg text-sm leading-6 text-[#171717]/65">
+              <div role="alert" className="maison-state-panel maison-state-panel--error">
+                <p className="maison-state-panel__title">Unable to load purchase history.</p>
+                <p className="maison-state-panel__copy">
                   Please try again in a moment. Your purchase records have not been changed.
                 </p>
               </div>
@@ -203,23 +175,20 @@ export function PurchaseHistoryPage() {
               <div
                 role="status"
                 aria-label="No purchase history"
-                className="rounded-[2rem] border border-dashed border-[#171717]/25 px-6 py-16 text-center sm:px-10"
+                className="maison-state-panel maison-state-panel--empty"
               >
-                <p className="font-display text-4xl tracking-[-0.05em]">No purchases yet.</p>
-                <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-[#171717]/65">
+                <p className="maison-state-panel__title">No purchases yet.</p>
+                <p className="maison-state-panel__copy">
                   The next considered choice is waiting in the collection.
                 </p>
-                <a
-                  href="/inventory"
-                  className="mt-8 inline-flex rounded-full bg-[#171717] px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#F4F1EA] transition-[background-color,transform] hover:-translate-y-1 hover:bg-[#E56B45] motion-reduce:transition-none motion-reduce:hover:transform-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
-                >
+                <a href="/inventory" className="maison-button maison-button--primary">
                   Return to inventory
                 </a>
               </div>
             )}
 
             {!isLoading && !hasError && purchases.length > 0 && (
-              <section aria-label="Purchase history results" className="space-y-5">
+              <section aria-label="Purchase history results" className="maison-history-list">
                 {purchases.map((purchase) => (
                   <PurchaseCard key={purchase.id} purchase={purchase} />
                 ))}
@@ -229,8 +198,9 @@ export function PurchaseHistoryPage() {
         </section>
       </main>
 
-      <footer className="mx-auto max-w-[1440px] border-t border-[#171717]/15 px-6 py-8 text-xs font-semibold uppercase tracking-[0.16em] text-[#171717]/55 lg:px-12">
-        Maison Motoring / Purchase records, considered.
+      <footer className="maison-container maison-footer">
+        <span>Maison Motoring / Purchase records, considered.</span>
+        <span>Est. 2026</span>
       </footer>
     </div>
   );

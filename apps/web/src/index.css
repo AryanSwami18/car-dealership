@@ -303,6 +303,29 @@ body {
     text-transform: uppercase;
   }
 
+  .maison-auth-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .maison-auth-controls__history {
+    display: none;
+  }
+
+  .maison-auth-controls__account {
+    display: none;
+    color: color-mix(in srgb, var(--color-maison-ink) 55%, transparent);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .maison-auth-controls__logout {
+    padding: 0.625rem 1rem;
+  }
+
   .maison-back-link {
     display: inline-flex;
     align-items: center;
@@ -958,6 +981,483 @@ body {
     letter-spacing: 0.16em;
     text-transform: uppercase;
   }
+
+  @keyframes maison-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .maison-motion-enter {
+    animation: maison-reveal 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .maison-motion-enter--late {
+    animation-delay: 80ms;
+  }
+
+  .maison-auth-layout {
+    display: grid;
+    gap: 3rem;
+    align-items: center;
+    padding-block: 3rem 6rem;
+  }
+
+  .maison-auth-layout > .maison-vehicle-art {
+    min-height: 19rem;
+    border-radius: 1.5rem;
+  }
+
+  .maison-auth-copy {
+    max-width: 34rem;
+  }
+
+  .maison-auth-title,
+  .maison-history-title,
+  .maison-admin-title {
+    margin-top: 1.5rem;
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 400;
+    letter-spacing: -0.07em;
+    line-height: 0.88;
+  }
+
+  .maison-auth-intro,
+  .maison-history-copy,
+  .maison-admin-copy {
+    max-width: 32rem;
+    margin-top: 1.75rem;
+    color: color-mix(in srgb, var(--color-maison-ink) 65%, transparent);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .maison-auth-form-wrap {
+    margin-top: 2.5rem;
+  }
+
+  .maison-auth-form,
+  .maison-admin-form,
+  .maison-dialog__form {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .maison-form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .maison-form-input {
+    width: 100%;
+    border: 1px solid color-mix(in srgb, var(--color-maison-ink) 20%, transparent);
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    color: var(--color-maison-ink);
+    background: color-mix(in srgb, white 35%, transparent);
+    outline: none;
+    transition:
+      border-color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  .maison-form-input--compact {
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--color-maison-surface);
+  }
+
+  .maison-form-input::placeholder {
+    color: color-mix(in srgb, var(--color-maison-ink) 35%, transparent);
+  }
+
+  .maison-form-input:focus {
+    border-color: var(--color-maison-persimmon);
+    background: color-mix(in srgb, white 55%, transparent);
+  }
+
+  .maison-form-hint {
+    margin-top: 0.5rem;
+    color: color-mix(in srgb, var(--color-maison-ink) 55%, transparent);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .maison-button--full {
+    width: 100%;
+  }
+
+  .maison-button--danger {
+    color: var(--color-maison-surface);
+    background: var(--color-maison-persimmon);
+  }
+
+  .maison-button--danger:hover {
+    color: var(--color-maison-surface);
+    background: var(--color-maison-ink);
+    transform: translateY(-0.125rem);
+  }
+
+  .maison-button:disabled {
+    cursor: wait;
+    opacity: 0.5;
+  }
+
+  .maison-protected-layout {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding-block: 5rem;
+  }
+
+  .maison-protected-card {
+    width: 100%;
+    max-width: 48rem;
+    padding: 3.5rem 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+    background: color-mix(in srgb, white 25%, transparent);
+    text-align: center;
+  }
+
+  .maison-protected-title {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 6vw, 4.5rem);
+    letter-spacing: -0.06em;
+    line-height: 0.95;
+  }
+
+  .maison-protected-copy {
+    max-width: 28rem;
+    margin: 1.25rem auto 0;
+    color: color-mix(in srgb, var(--color-maison-ink) 65%, transparent);
+    line-height: 1.75;
+  }
+
+  .maison-protected-card .maison-button {
+    margin-top: 2rem;
+  }
+
+  .maison-history-section,
+  .maison-admin-page {
+    padding-block: 4rem 7rem;
+  }
+
+  .maison-history-intro,
+  .maison-admin-intro {
+    max-width: 48rem;
+  }
+
+  .maison-history-content,
+  .maison-admin-content {
+    margin-top: 4rem;
+  }
+
+  .maison-loading-state--detail {
+    padding-block: 5rem;
+    text-align: center;
+  }
+
+  .maison-loading-state--detail .maison-state-panel__copy {
+    margin-inline: auto;
+  }
+
+  .maison-history-list {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .maison-purchase-card {
+    padding: 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+    background: color-mix(in srgb, white 20%, transparent);
+  }
+
+  .maison-purchase-card__header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .maison-purchase-card__title {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+  }
+
+  .maison-purchase-card__category {
+    margin-top: 0.5rem;
+    color: color-mix(in srgb, var(--color-maison-ink) 55%, transparent);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .maison-purchase-card__details {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2rem;
+    padding-block: 1.25rem;
+    border-block: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+  }
+
+  .maison-purchase-card__details dt,
+  .maison-admin-metric__label {
+    color: color-mix(in srgb, var(--color-maison-ink) 55%, transparent);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .maison-purchase-card__details dd {
+    margin-top: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+  }
+
+  .maison-admin-metrics {
+    display: grid;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .maison-admin-metric {
+    padding: 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+    background: color-mix(in srgb, white 25%, transparent);
+  }
+
+  .maison-admin-metric--sage {
+    background: color-mix(in srgb, var(--color-maison-sage) 35%, transparent);
+  }
+
+  .maison-admin-metric__value {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 6vw, 4rem);
+    letter-spacing: -0.06em;
+    line-height: 0.95;
+  }
+
+  .maison-admin-form__grid {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .maison-admin-form__wide {
+    min-width: 0;
+  }
+
+  .maison-admin-section {
+    padding: 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+    background: color-mix(in srgb, white 20%, transparent);
+  }
+
+  .maison-admin-section__heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+  }
+
+  .maison-admin-section__heading h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+  }
+
+  .maison-admin-content > * + * {
+    margin-top: 1.5rem;
+  }
+
+  .maison-admin-table-wrap {
+    overflow-x: auto;
+  }
+
+  .maison-admin-table {
+    width: 100%;
+    min-width: 46rem;
+    border-collapse: collapse;
+  }
+
+  .maison-admin-table thead tr {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-maison-ink) 15%, transparent);
+    color: color-mix(in srgb, var(--color-maison-ink) 55%, transparent);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  .maison-admin-table th,
+  .maison-admin-table td {
+    padding: 1.25rem 0.75rem;
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  .maison-admin-table__row {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-maison-ink) 10%, transparent);
+  }
+
+  .maison-admin-table__vehicle {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    text-decoration: underline;
+    text-decoration-color: var(--color-maison-persimmon);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.5rem;
+  }
+
+  .maison-admin-table__category {
+    color: color-mix(in srgb, var(--color-maison-ink) 60%, transparent);
+    font-size: 0.875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .maison-admin-table__price,
+  .maison-admin-table__stock {
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .maison-admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .maison-admin-action {
+    border: 1px solid color-mix(in srgb, var(--color-maison-ink) 20%, transparent);
+    border-radius: 9999px;
+    padding: 0.5rem 0.75rem;
+    color: var(--color-maison-ink);
+    background: transparent;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease;
+  }
+
+  .maison-admin-action:hover:not(:disabled) {
+    border-color: var(--color-maison-ink);
+    color: var(--color-maison-surface);
+    background: var(--color-maison-ink);
+  }
+
+  .maison-admin-action--sage:hover:not(:disabled) {
+    color: var(--color-maison-ink);
+    background: var(--color-maison-sage);
+  }
+
+  .maison-admin-action--danger {
+    color: var(--color-maison-persimmon);
+    border-color: color-mix(in srgb, var(--color-maison-persimmon) 50%, transparent);
+  }
+
+  .maison-admin-action--danger:hover:not(:disabled) {
+    border-color: var(--color-maison-persimmon);
+    color: var(--color-maison-surface);
+    background: var(--color-maison-persimmon);
+  }
+
+  .maison-admin-action:disabled {
+    cursor: wait;
+    opacity: 0.5;
+  }
+
+  .maison-dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 2rem 1.5rem;
+    background: color-mix(in srgb, var(--color-maison-ink) 55%, transparent);
+  }
+
+  .maison-dialog {
+    width: 100%;
+    max-width: 32rem;
+    padding: 2rem;
+    color: var(--color-maison-ink);
+    background: var(--color-maison-surface);
+    box-shadow: 0 2rem 5rem color-mix(in srgb, var(--color-maison-ink) 25%, transparent);
+  }
+
+  .maison-dialog--wide {
+    max-width: 42rem;
+  }
+
+  .maison-dialog__header {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .maison-dialog__title {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+  }
+
+  .maison-dialog__copy {
+    margin-top: 1.25rem;
+    color: color-mix(in srgb, var(--color-maison-ink) 65%, transparent);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .maison-dialog__close {
+    border: 1px solid color-mix(in srgb, var(--color-maison-ink) 20%, transparent);
+    border-radius: 9999px;
+    padding: 0.5rem 0.75rem;
+    color: var(--color-maison-ink);
+    background: transparent;
+    font-size: 1.125rem;
+    line-height: 1;
+  }
+
+  .maison-dialog__actions {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
 }
 
 @media (min-width: 640px) {
@@ -971,6 +1471,14 @@ body {
 
   .maison-page-header-meta > p {
     display: block;
+  }
+
+  .maison-auth-controls__account {
+    display: block;
+  }
+
+  .maison-auth-controls__history {
+    display: inline-flex;
   }
 
   .maison-hero {
@@ -1019,6 +1527,45 @@ body {
   }
 
   .maison-purchase-dialog__actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .maison-auth-layout > .maison-vehicle-art {
+    min-height: 24rem;
+  }
+
+  .maison-purchase-card {
+    padding: 2rem;
+  }
+
+  .maison-purchase-card__header {
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-between;
+  }
+
+  .maison-purchase-card__details {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .maison-admin-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .maison-admin-form__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .maison-admin-form__wide {
+    grid-column: span 2;
+  }
+
+  .maison-admin-section {
+    padding: 2rem;
+  }
+
+  .maison-dialog__actions {
     flex-direction: row;
     justify-content: flex-end;
   }
@@ -1092,6 +1639,29 @@ body {
   }
 
   .maison-purchase-dialog {
+    padding: 2.5rem;
+  }
+
+  .maison-auth-layout {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 6rem;
+    padding-block: 5rem 9rem;
+  }
+
+  .maison-auth-layout > .maison-vehicle-art {
+    min-height: 40rem;
+  }
+
+  .maison-history-section,
+  .maison-admin-page {
+    padding-block: 5rem 9rem;
+  }
+
+  .maison-admin-section {
+    padding: 2.5rem;
+  }
+
+  .maison-dialog {
     padding: 2.5rem;
   }
 }

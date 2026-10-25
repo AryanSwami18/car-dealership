@@ -2,6 +2,7 @@ import { useState, type FormEvent, type ReactNode } from 'react';
 
 import { AuthApiError, loginUser, registerUser } from './api/auth';
 import { useAuth } from './auth/AuthContext';
+import { MaisonVehicleArt } from './MaisonVehicleArt';
 import { navigateTo } from './navigation';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -22,50 +23,26 @@ function AuthLayout({
   title: string;
 }) {
   return (
-    <div className="min-h-screen bg-[#F4F1EA] text-[#171717]">
-      <header className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-6 lg:px-12">
-        <a
-          href="/"
-          aria-label="Maison Motoring home"
-          className="group flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
-        >
-          <span className="flex size-9 items-center justify-center rounded-full bg-[#171717] text-[10px] tracking-normal text-[#F4F1EA] motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:rotate-12">
-            M/01
-          </span>
-          Maison Motoring
+    <div className="maison-page maison-motion-enter">
+      <header className="maison-container maison-header">
+        <a href="/" aria-label="Maison Motoring home" className="maison-brand">
+          <span className="maison-mark">M/01</span>
+          <span>Maison Motoring</span>
         </a>
-        <a
-          href={alternateHref}
-          className="text-xs font-semibold uppercase tracking-[0.16em] text-[#171717]/60 underline decoration-[#E56B45] decoration-2 underline-offset-8 transition-colors hover:text-[#E56B45] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
-        >
+        <a href={alternateHref} className="maison-link">
           {alternateLabel}
         </a>
       </header>
 
       <main>
-        <section className="mx-auto grid max-w-[1440px] gap-12 px-6 pb-20 pt-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-24 lg:px-12 lg:pb-32 lg:pt-24">
-          <div className="hidden min-h-[520px] overflow-hidden rounded-[2rem] bg-[#A8B5A0] p-5 lg:block">
-            <div className="relative h-full overflow-hidden rounded-[1.5rem] border border-[#F4F1EA]/55">
-              <div className="absolute -right-20 top-16 size-80 rounded-full bg-[#E56B45]/75 blur-3xl" />
-              <div className="absolute -bottom-28 -left-12 size-96 rounded-full bg-[#171717]/75 blur-3xl" />
-              <div className="absolute bottom-36 left-1/2 h-32 w-4/5 -translate-x-1/2 -skew-x-12 rounded-[45%_55%_20%_20%] bg-[#171717]" />
-              <div className="absolute bottom-32 left-[18%] size-14 rounded-full border-8 border-[#171717] bg-[#F4F1EA]" />
-              <div className="absolute bottom-32 right-[18%] size-14 rounded-full border-8 border-[#171717] bg-[#F4F1EA]" />
-              <p className="absolute bottom-8 left-8 text-xs font-semibold uppercase tracking-[0.18em] text-[#F4F1EA]">
-                A considered beginning.
-              </p>
-            </div>
-          </div>
+        <section className="maison-container maison-auth-layout">
+          <MaisonVehicleArt label="Abstract studio vehicle study" variant="hero" />
 
-          <div className="max-w-xl">
-            <p className="mb-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#E56B45]">
-              {eyebrow}
-            </p>
-            <h1 className="font-display text-[clamp(3.5rem,8vw,7rem)] leading-[0.88] tracking-[-0.07em]">
-              {title}
-            </h1>
-            <p className="mt-7 max-w-md text-base leading-7 text-[#171717]/65">{alternateText}</p>
-            <div className="mt-10">{children}</div>
+          <div className="maison-auth-copy maison-motion-enter maison-motion-enter--late">
+            <p className="maison-eyebrow">{eyebrow}</p>
+            <h1 className="maison-auth-title">{title}</h1>
+            <p className="maison-auth-intro">{alternateText}</p>
+            <div className="maison-auth-form-wrap">{children}</div>
           </div>
         </section>
       </main>
@@ -79,11 +56,7 @@ function FormError({ message }: { message: string | null }) {
   }
 
   return (
-    <div
-      id="auth-form-error"
-      role="alert"
-      className="rounded-2xl border border-[#E56B45]/45 bg-[#E56B45]/10 px-4 py-3 text-sm leading-6"
-    >
+    <div id="auth-form-error" role="alert" className="maison-feedback maison-feedback--error">
       {message}
     </div>
   );
@@ -151,13 +124,13 @@ export function RegisterPage() {
     >
       <form
         aria-label="Registration"
-        className="space-y-5"
+        className="maison-auth-form"
         noValidate
         onSubmit={handleSubmit}
         aria-busy={isSubmitting}
       >
         <div>
-          <label htmlFor="registration-name" className="mb-2 block text-sm font-semibold">
+          <label htmlFor="registration-name" className="maison-form-label">
             Name
           </label>
           <input
@@ -168,11 +141,11 @@ export function RegisterPage() {
             required
             value={name}
             onChange={(event) => setName(event.target.value)}
-            className="w-full rounded-2xl border border-[#171717]/20 bg-white/35 px-5 py-4 outline-none transition-colors placeholder:text-[#171717]/35 focus:border-[#E56B45]"
+            className="maison-form-input"
           />
         </div>
         <div>
-          <label htmlFor="registration-email" className="mb-2 block text-sm font-semibold">
+          <label htmlFor="registration-email" className="maison-form-label">
             Email
           </label>
           <input
@@ -183,11 +156,11 @@ export function RegisterPage() {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="w-full rounded-2xl border border-[#171717]/20 bg-white/35 px-5 py-4 outline-none transition-colors placeholder:text-[#171717]/35 focus:border-[#E56B45]"
+            className="maison-form-input"
           />
         </div>
         <div>
-          <label htmlFor="registration-password" className="mb-2 block text-sm font-semibold">
+          <label htmlFor="registration-password" className="maison-form-label">
             Password
           </label>
           <input
@@ -199,9 +172,9 @@ export function RegisterPage() {
             aria-describedby="password-hint"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="w-full rounded-2xl border border-[#171717]/20 bg-white/35 px-5 py-4 outline-none transition-colors placeholder:text-[#171717]/35 focus:border-[#E56B45]"
+            className="maison-form-input"
           />
-          <p id="password-hint" className="mt-2 text-xs leading-5 text-[#171717]/55">
+          <p id="password-hint" className="maison-form-hint">
             At least 8 characters with uppercase, lowercase, and a number.
           </p>
         </div>
@@ -209,7 +182,7 @@ export function RegisterPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded-full bg-[#171717] px-6 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-[#F4F1EA] transition-[background-color,transform] duration-300 hover:-translate-y-1 hover:bg-[#E56B45] disabled:cursor-wait disabled:opacity-60 motion-reduce:transition-none motion-reduce:hover:transform-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
+          className="maison-button maison-button--primary maison-button--full"
         >
           {isSubmitting ? 'Creating account…' : 'Create account'}
         </button>
@@ -270,13 +243,13 @@ export function LoginPage() {
     >
       <form
         aria-label="Login"
-        className="space-y-5"
+        className="maison-auth-form"
         noValidate
         onSubmit={handleSubmit}
         aria-busy={isSubmitting}
       >
         <div>
-          <label htmlFor="login-email" className="mb-2 block text-sm font-semibold">
+          <label htmlFor="login-email" className="maison-form-label">
             Email
           </label>
           <input
@@ -287,11 +260,11 @@ export function LoginPage() {
             required
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className="w-full rounded-2xl border border-[#171717]/20 bg-white/35 px-5 py-4 outline-none transition-colors placeholder:text-[#171717]/35 focus:border-[#E56B45]"
+            className="maison-form-input"
           />
         </div>
         <div>
-          <label htmlFor="login-password" className="mb-2 block text-sm font-semibold">
+          <label htmlFor="login-password" className="maison-form-label">
             Password
           </label>
           <input
@@ -302,14 +275,14 @@ export function LoginPage() {
             required
             value={password}
             onChange={(event) => setPassword(event.target.value)}
-            className="w-full rounded-2xl border border-[#171717]/20 bg-white/35 px-5 py-4 outline-none transition-colors placeholder:text-[#171717]/35 focus:border-[#E56B45]"
+            className="maison-form-input"
           />
         </div>
         <FormError message={error} />
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded-full bg-[#171717] px-6 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-[#F4F1EA] transition-[background-color,transform] duration-300 hover:-translate-y-1 hover:bg-[#E56B45] disabled:cursor-wait disabled:opacity-60 motion-reduce:transition-none motion-reduce:hover:transform-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
+          className="maison-button maison-button--primary maison-button--full"
         >
           {isSubmitting ? 'Signing in…' : 'Sign in'}
         </button>
@@ -320,20 +293,15 @@ export function LoginPage() {
 
 export function AuthRequiredPage() {
   return (
-    <div className="min-h-screen bg-[#F4F1EA] text-[#171717]">
-      <main className="mx-auto flex min-h-screen max-w-3xl items-center px-6 py-20">
-        <section className="w-full rounded-[2rem] border border-[#171717]/15 bg-white/25 px-6 py-14 text-center sm:px-12">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.24em] text-[#E56B45]">
-            Maison Motoring
-          </p>
-          <h1 className="font-display text-5xl tracking-[-0.06em]">Sign in to continue.</h1>
-          <p className="mx-auto mt-5 max-w-md text-base leading-7 text-[#171717]/65">
+    <div className="maison-page maison-motion-enter">
+      <main className="maison-container maison-protected-layout">
+        <section className="maison-protected-card">
+          <p className="maison-eyebrow">Maison Motoring</p>
+          <h1 className="maison-protected-title">Sign in to continue.</h1>
+          <p className="maison-protected-copy">
             Your account keeps the considered collection close and your access secure.
           </p>
-          <a
-            href="/login"
-            className="mt-8 inline-flex rounded-full bg-[#171717] px-6 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-[#F4F1EA] transition-[background-color,transform] duration-300 hover:-translate-y-1 hover:bg-[#E56B45] motion-reduce:transition-none motion-reduce:hover:transform-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
-          >
+          <a href="/login" className="maison-button maison-button--primary">
             Go to login
           </a>
         </section>

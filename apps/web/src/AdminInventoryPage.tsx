@@ -116,13 +116,13 @@ function VehicleForm({
     <form
       aria-busy={isSubmitting}
       aria-label={ariaLabel}
-      className="grid gap-5"
+      className="maison-admin-form"
       noValidate
       onSubmit={onSubmit}
     >
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="maison-admin-form__grid">
         <div>
-          <label htmlFor={`${ariaLabel}-make`} className="mb-2 block text-sm font-semibold">
+          <label htmlFor={`${ariaLabel}-make`} className="maison-form-label">
             Make
           </label>
           <input
@@ -132,11 +132,11 @@ function VehicleForm({
             type="text"
             value={values.make}
             onChange={(event) => updateField('make', event)}
-            className="w-full rounded-2xl border border-[#171717]/20 bg-[#F4F1EA] px-4 py-3 outline-none transition-colors focus:border-[#E56B45]"
+            className="maison-form-input maison-form-input--compact"
           />
         </div>
         <div>
-          <label htmlFor={`${ariaLabel}-model`} className="mb-2 block text-sm font-semibold">
+          <label htmlFor={`${ariaLabel}-model`} className="maison-form-label">
             Model
           </label>
           <input
@@ -146,11 +146,11 @@ function VehicleForm({
             type="text"
             value={values.model}
             onChange={(event) => updateField('model', event)}
-            className="w-full rounded-2xl border border-[#171717]/20 bg-[#F4F1EA] px-4 py-3 outline-none transition-colors focus:border-[#E56B45]"
+            className="maison-form-input maison-form-input--compact"
           />
         </div>
         <div>
-          <label htmlFor={`${ariaLabel}-category`} className="mb-2 block text-sm font-semibold">
+          <label htmlFor={`${ariaLabel}-category`} className="maison-form-label">
             Category
           </label>
           <input
@@ -160,11 +160,11 @@ function VehicleForm({
             type="text"
             value={values.category}
             onChange={(event) => updateField('category', event)}
-            className="w-full rounded-2xl border border-[#171717]/20 bg-[#F4F1EA] px-4 py-3 outline-none transition-colors focus:border-[#E56B45]"
+            className="maison-form-input maison-form-input--compact"
           />
         </div>
         <div>
-          <label htmlFor={`${ariaLabel}-price`} className="mb-2 block text-sm font-semibold">
+          <label htmlFor={`${ariaLabel}-price`} className="maison-form-label">
             Price
           </label>
           <input
@@ -177,14 +177,11 @@ function VehicleForm({
             type="number"
             value={values.price}
             onChange={(event) => updateField('price', event)}
-            className="w-full rounded-2xl border border-[#171717]/20 bg-[#F4F1EA] px-4 py-3 outline-none transition-colors focus:border-[#E56B45]"
+            className="maison-form-input maison-form-input--compact"
           />
         </div>
-        <div className="sm:col-span-2">
-          <label
-            htmlFor={`${ariaLabel}-quantityInStock`}
-            className="mb-2 block text-sm font-semibold"
-          >
+        <div className="maison-admin-form__wide">
+          <label htmlFor={`${ariaLabel}-quantityInStock`} className="maison-form-label">
             {ariaLabel === 'Create vehicle' ? 'Initial stock quantity' : 'Stock quantity'}
           </label>
           <input
@@ -197,16 +194,13 @@ function VehicleForm({
             type="number"
             value={values.quantityInStock}
             onChange={(event) => updateField('quantityInStock', event)}
-            className="w-full rounded-2xl border border-[#171717]/20 bg-[#F4F1EA] px-4 py-3 outline-none transition-colors focus:border-[#E56B45]"
+            className="maison-form-input maison-form-input--compact"
           />
         </div>
       </div>
 
       {error && (
-        <div
-          role="alert"
-          className="rounded-2xl border border-[#E56B45]/45 bg-[#E56B45]/10 px-4 py-3 text-sm leading-6"
-        >
+        <div role="alert" className="maison-feedback maison-feedback--error">
           {error}
         </div>
       )}
@@ -214,7 +208,7 @@ function VehicleForm({
       <button
         type="submit"
         disabled={isSubmitting}
-        className="justify-self-start rounded-full bg-[#171717] px-6 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#F4F1EA] transition-[background-color,transform] duration-300 hover:-translate-y-1 hover:bg-[#E56B45] disabled:cursor-wait disabled:opacity-50 motion-reduce:transition-none motion-reduce:hover:transform-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
+        className="maison-button maison-button--primary"
       >
         {isSubmitting ? 'Saving…' : actionLabel}
       </button>
@@ -224,9 +218,9 @@ function VehicleForm({
 
 function AdminSection({ children, title }: { children: ReactNode; title: string }) {
   return (
-    <section className="rounded-[2rem] border border-[#171717]/15 bg-white/20 p-6 sm:p-8">
-      <div className="mb-7 flex flex-col gap-2 border-b border-[#171717]/15 pb-5 sm:flex-row sm:items-end sm:justify-between">
-        <h2 className="font-display text-4xl tracking-[-0.05em]">{title}</h2>
+    <section className="maison-admin-section">
+      <div className="maison-admin-section__heading">
+        <h2>{title}</h2>
       </div>
       {children}
     </section>
@@ -235,20 +229,15 @@ function AdminSection({ children, title }: { children: ReactNode; title: string 
 
 export function AdminAccessRequiredPage() {
   return (
-    <div className="min-h-screen bg-[#F4F1EA] text-[#171717]">
-      <main className="mx-auto flex min-h-screen max-w-3xl items-center px-6 py-20">
-        <section className="w-full rounded-[2rem] border border-[#171717]/15 bg-white/25 px-6 py-14 text-center sm:px-12">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.24em] text-[#E56B45]">
-            Maison Motoring / Private office
-          </p>
-          <h1 className="font-display text-5xl tracking-[-0.06em]">Admin access required.</h1>
-          <p className="mx-auto mt-5 max-w-md text-base leading-7 text-[#171717]/65">
+    <div className="maison-page maison-motion-enter">
+      <main className="maison-container maison-protected-layout">
+        <section className="maison-protected-card">
+          <p className="maison-eyebrow">Maison Motoring / Private office</p>
+          <h1 className="maison-protected-title">Admin access required.</h1>
+          <p className="maison-protected-copy">
             Inventory management is reserved for verified administrators.
           </p>
-          <a
-            href="/inventory"
-            className="mt-8 inline-flex rounded-full bg-[#171717] px-6 py-4 text-sm font-semibold uppercase tracking-[0.14em] text-[#F4F1EA] transition-[background-color,transform] duration-300 hover:-translate-y-1 hover:bg-[#E56B45] motion-reduce:transition-none motion-reduce:hover:transform-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
-          >
+          <a href="/inventory" className="maison-button maison-button--primary">
             Return to inventory
           </a>
         </section>
@@ -465,74 +454,57 @@ export function AdminInventoryPage() {
   }, 0);
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#F4F1EA] text-[#171717]">
-      <header className="mx-auto flex max-w-[1440px] items-center justify-between px-6 py-6 lg:px-12">
-        <a
-          href="/inventory"
-          aria-label="Back to public inventory"
-          className="group inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
-        >
-          <span className="text-lg motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:-translate-x-1">
-            ←
-          </span>
+    <div className="maison-page maison-motion-enter">
+      <header className="maison-container maison-header">
+        <a href="/inventory" aria-label="Back to public inventory" className="maison-back-link">
+          <span aria-hidden="true">←</span>
           Public inventory
         </a>
-        <div className="flex items-center gap-5">
-          <span className="hidden text-xs font-semibold uppercase tracking-[0.2em] text-[#171717]/55 sm:block">
-            Maison Motoring / Admin office
-          </span>
+        <div className="maison-page-header-meta">
+          <p>Maison Motoring / Admin office</p>
           <AuthControls />
         </div>
       </header>
 
       <main>
-        <section className="mx-auto max-w-[1440px] px-6 pb-20 pt-12 lg:px-12 lg:pb-32 lg:pt-24">
-          <div className="max-w-3xl">
-            <p className="mb-6 text-xs font-semibold uppercase tracking-[0.24em] text-[#E56B45]">
-              Maison Motoring / Private office
-            </p>
-            <h1 className="font-display text-[clamp(3.5rem,8vw,7rem)] leading-[0.88] tracking-[-0.07em]">
-              Admin inventory.
-            </h1>
-            <p className="mt-7 max-w-xl text-base leading-7 text-[#171717]/65">
+        <section className="maison-container maison-section maison-admin-page">
+          <div className="maison-admin-intro">
+            <p className="maison-eyebrow">Maison Motoring / Private office</p>
+            <h1 className="maison-admin-title">Admin inventory.</h1>
+            <p className="maison-admin-copy">
               Keep the collection accurate, available, and ready for the next considered choice.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-[1.5rem] border border-[#171717]/15 bg-[#A8B5A0]/35 p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#171717]/55">
-                Total vehicle records
-              </p>
-              <p className="mt-3 font-display text-5xl tracking-[-0.06em]">
+          <div className="maison-admin-metrics">
+            <div className="maison-admin-metric maison-admin-metric--sage">
+              <p className="maison-admin-metric__label">Total vehicle records</p>
+              <p className="maison-admin-metric__value">
                 {vehicles.length} vehicle {vehicles.length === 1 ? 'record' : 'records'}
               </p>
             </div>
-            <div className="rounded-[1.5rem] border border-[#171717]/15 bg-white/25 p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#171717]/55">
-                Total stock
-              </p>
-              <p className="mt-3 font-display text-5xl tracking-[-0.06em]">
-                {totalStock} total in stock
-              </p>
+            <div className="maison-admin-metric">
+              <p className="maison-admin-metric__label">Total stock</p>
+              <p className="maison-admin-metric__value">{totalStock} total in stock</p>
             </div>
           </div>
 
-          <div className="mt-12 space-y-6">
+          <div className="maison-admin-content">
             {isLoading && (
-              <div role="status" aria-label="Loading admin inventory" className="py-24 text-center">
-                <p className="font-display text-4xl tracking-[-0.05em]">Loading admin inventory…</p>
-                <p className="mt-3 text-sm text-[#171717]/55">Gathering the current collection.</p>
+              <div
+                role="status"
+                aria-label="Loading admin inventory"
+                className="maison-loading-state maison-loading-state--detail"
+              >
+                <p className="maison-state-panel__title">Loading admin inventory…</p>
+                <p className="maison-state-panel__copy">Gathering the current collection.</p>
               </div>
             )}
 
             {!isLoading && error && (
-              <div
-                role="alert"
-                className="rounded-[2rem] border border-[#E56B45]/45 bg-[#E56B45]/10 px-6 py-12 sm:px-10"
-              >
-                <p className="font-display text-4xl tracking-[-0.05em]">{error}</p>
-                <p className="mt-3 max-w-lg text-sm leading-6 text-[#171717]/65">
+              <div role="alert" className="maison-state-panel maison-state-panel--error">
+                <p className="maison-state-panel__title">{error}</p>
+                <p className="maison-state-panel__copy">
                   No changes were made. Please try again in a moment.
                 </p>
               </div>
@@ -544,7 +516,7 @@ export function AdminInventoryPage() {
                   <div
                     role="status"
                     aria-label="Admin inventory update"
-                    className="rounded-2xl border border-[#A8B5A0] bg-[#A8B5A0]/25 px-4 py-3 text-sm leading-6"
+                    className="maison-feedback maison-feedback--success"
                   >
                     {feedback}
                   </div>
@@ -567,35 +539,23 @@ export function AdminInventoryPage() {
                     <div
                       role="status"
                       aria-label="No vehicles in inventory"
-                      className="rounded-2xl border border-dashed border-[#171717]/25 px-6 py-12 text-center"
+                      className="maison-state-panel maison-state-panel--empty"
                     >
-                      <p className="font-display text-3xl tracking-[-0.05em]">
-                        No vehicles in inventory.
-                      </p>
-                      <p className="mt-3 text-sm text-[#171717]/60">
+                      <p className="maison-state-panel__title">No vehicles in inventory.</p>
+                      <p className="maison-state-panel__copy">
                         Create the first vehicle to begin the collection.
                       </p>
                     </div>
                   ) : (
-                    <div className="overflow-x-auto">
-                      <table aria-label="Admin vehicle inventory" className="w-full min-w-[760px]">
+                    <div className="maison-admin-table-wrap">
+                      <table aria-label="Admin vehicle inventory" className="maison-admin-table">
                         <thead>
-                          <tr className="border-b border-[#171717]/15 text-left text-xs font-semibold uppercase tracking-[0.16em] text-[#171717]/55">
-                            <th className="px-3 pb-4" scope="col">
-                              Vehicle
-                            </th>
-                            <th className="px-3 pb-4" scope="col">
-                              Category
-                            </th>
-                            <th className="px-3 pb-4" scope="col">
-                              Price
-                            </th>
-                            <th className="px-3 pb-4" scope="col">
-                              Stock
-                            </th>
-                            <th className="px-3 pb-4" scope="col">
-                              Actions
-                            </th>
+                          <tr>
+                            <th scope="col">Vehicle</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Stock</th>
+                            <th scope="col">Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -603,36 +563,33 @@ export function AdminInventoryPage() {
                             const name = vehicleName(currentVehicle);
 
                             return (
-                              <tr
-                                key={currentVehicle.id}
-                                className="border-b border-[#171717]/10 last:border-0"
-                              >
-                                <th className="px-3 py-5 text-left" scope="row">
+                              <tr key={currentVehicle.id} className="maison-admin-table__row">
+                                <th scope="row">
                                   <a
                                     href={`/vehicles/${currentVehicle.id}`}
                                     aria-label={`View ${name}`}
-                                    className="font-display text-2xl tracking-[-0.04em] underline decoration-[#E56B45] decoration-2 underline-offset-8 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
+                                    className="maison-admin-table__vehicle"
                                   >
                                     {name}
                                   </a>
                                 </th>
-                                <td className="px-3 py-5 text-sm uppercase tracking-[0.12em] text-[#171717]/60">
+                                <td className="maison-admin-table__category">
                                   {currentVehicle.category}
                                 </td>
-                                <td className="px-3 py-5 text-sm font-semibold">
+                                <td className="maison-admin-table__price">
                                   {formatPrice(currentVehicle.price)}
                                 </td>
-                                <td className="px-3 py-5 text-sm font-semibold">
+                                <td className="maison-admin-table__stock">
                                   {currentVehicle.quantityInStock} in stock
                                 </td>
-                                <td className="px-3 py-5">
-                                  <div className="flex flex-wrap gap-2">
+                                <td>
+                                  <div className="maison-admin-actions">
                                     <button
                                       type="button"
                                       aria-label={`Edit ${name}`}
                                       disabled={isMutating}
                                       onClick={() => openEdit(currentVehicle)}
-                                      className="rounded-full border border-[#171717]/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] transition-colors hover:border-[#171717] hover:bg-[#171717] hover:text-[#F4F1EA] disabled:cursor-wait disabled:opacity-50 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E56B45]"
+                                      className="maison-admin-action maison-admin-action--quiet"
                                     >
                                       Edit
                                     </button>
@@ -645,7 +602,7 @@ export function AdminInventoryPage() {
                                         setRestockQuantity('');
                                         setDialogError(null);
                                       }}
-                                      className="rounded-full border border-[#171717]/20 px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] transition-colors hover:border-[#171717] hover:bg-[#A8B5A0] disabled:cursor-wait disabled:opacity-50 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E56B45]"
+                                      className="maison-admin-action maison-admin-action--sage"
                                     >
                                       Restock
                                     </button>
@@ -657,7 +614,7 @@ export function AdminInventoryPage() {
                                         setDeleteVehicleTarget(currentVehicle);
                                         setDialogError(null);
                                       }}
-                                      className="rounded-full border border-[#E56B45]/50 px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-[#E56B45] transition-colors hover:bg-[#E56B45] hover:text-[#F4F1EA] disabled:cursor-wait disabled:opacity-50 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E56B45]"
+                                      className="maison-admin-action maison-admin-action--danger"
                                     >
                                       Delete
                                     </button>
@@ -682,18 +639,13 @@ export function AdminInventoryPage() {
           role="dialog"
           aria-labelledby="edit-vehicle-title"
           aria-modal="true"
-          className="fixed inset-0 z-10 flex items-center justify-center overflow-y-auto bg-[#171717]/55 px-6 py-8"
+          className="maison-dialog-backdrop"
         >
-          <div className="w-full max-w-2xl rounded-[2rem] bg-[#F4F1EA] p-6 text-[#171717] shadow-2xl sm:p-8">
-            <div className="mb-8 flex items-start justify-between gap-6">
+          <div className="maison-dialog maison-dialog--wide">
+            <div className="maison-dialog__header">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E56B45]">
-                  Edit collection record
-                </p>
-                <h2
-                  id="edit-vehicle-title"
-                  className="mt-3 font-display text-4xl tracking-[-0.05em]"
-                >
+                <p className="maison-eyebrow">Edit collection record</p>
+                <h2 id="edit-vehicle-title" className="maison-dialog__title">
                   Edit vehicle
                 </h2>
               </div>
@@ -701,7 +653,7 @@ export function AdminInventoryPage() {
                 type="button"
                 aria-label="Close edit vehicle dialog"
                 onClick={() => setEditVehicle(null)}
-                className="rounded-full border border-[#171717]/20 px-3 py-2 text-lg leading-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E56B45]"
+                className="maison-dialog__close"
               >
                 ×
               </button>
@@ -724,33 +676,28 @@ export function AdminInventoryPage() {
           role="dialog"
           aria-labelledby="delete-vehicle-title"
           aria-modal="true"
-          className="fixed inset-0 z-10 flex items-center justify-center bg-[#171717]/55 px-6 py-8"
+          className="maison-dialog-backdrop"
         >
-          <div className="w-full max-w-lg rounded-[2rem] bg-[#F4F1EA] p-6 text-[#171717] shadow-2xl sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E56B45]">
-              Remove collection record
-            </p>
-            <h2 id="delete-vehicle-title" className="mt-3 font-display text-4xl tracking-[-0.05em]">
+          <div className="maison-dialog">
+            <p className="maison-eyebrow">Remove collection record</p>
+            <h2 id="delete-vehicle-title" className="maison-dialog__title">
               Delete vehicle
             </h2>
-            <p className="mt-5 text-sm leading-6 text-[#171717]/65">
+            <p className="maison-dialog__copy">
               Delete {vehicleName(deleteVehicleTarget)}? This cannot be undone. Vehicles with
               purchase history will remain protected by the backend.
             </p>
             {dialogError && (
-              <div
-                role="alert"
-                className="mt-5 rounded-2xl border border-[#E56B45]/45 bg-[#E56B45]/10 px-4 py-3 text-sm leading-6"
-              >
+              <div role="alert" className="maison-feedback maison-feedback--error">
                 {dialogError}
               </div>
             )}
-            <div className="mt-8 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <div className="maison-dialog__actions">
               <button
                 type="button"
                 disabled={isMutating}
                 onClick={() => setDeleteVehicleTarget(null)}
-                className="rounded-full border border-[#171717]/20 px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] transition-colors hover:border-[#171717] hover:bg-[#171717] hover:text-[#F4F1EA] disabled:cursor-wait disabled:opacity-50 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E56B45]"
+                className="maison-button maison-button--quiet"
               >
                 Cancel
               </button>
@@ -758,7 +705,7 @@ export function AdminInventoryPage() {
                 type="button"
                 disabled={isMutating}
                 onClick={handleDeleteConfirm}
-                className="rounded-full bg-[#E56B45] px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#F4F1EA] transition-[background-color,transform] hover:-translate-y-0.5 hover:bg-[#171717] disabled:cursor-wait disabled:opacity-50 motion-reduce:transition-none motion-reduce:hover:transform-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E56B45]"
+                className="maison-button maison-button--danger"
               >
                 {isMutating ? 'Deleting…' : 'Confirm deletion'}
               </button>
@@ -772,28 +719,23 @@ export function AdminInventoryPage() {
           role="dialog"
           aria-labelledby="restock-vehicle-title"
           aria-modal="true"
-          className="fixed inset-0 z-10 flex items-center justify-center bg-[#171717]/55 px-6 py-8"
+          className="maison-dialog-backdrop"
         >
-          <div className="w-full max-w-lg rounded-[2rem] bg-[#F4F1EA] p-6 text-[#171717] shadow-2xl sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#E56B45]">
-              Add availability
-            </p>
-            <h2
-              id="restock-vehicle-title"
-              className="mt-3 font-display text-4xl tracking-[-0.05em]"
-            >
+          <div className="maison-dialog">
+            <p className="maison-eyebrow">Add availability</p>
+            <h2 id="restock-vehicle-title" className="maison-dialog__title">
               Restock vehicle
             </h2>
-            <p className="mt-5 text-sm leading-6 text-[#171717]/65">
+            <p className="maison-dialog__copy">
               Add stock for {vehicleName(restockVehicleTarget)}. Use a positive whole number.
             </p>
             <form
               aria-label="Restock vehicle"
-              className="mt-8 space-y-5"
+              className="maison-dialog__form"
               onSubmit={handleRestockSubmit}
             >
               <div>
-                <label htmlFor="restock-quantity" className="mb-2 block text-sm font-semibold">
+                <label htmlFor="restock-quantity" className="maison-form-label">
                   Quantity to restock
                 </label>
                 <input
@@ -808,30 +750,27 @@ export function AdminInventoryPage() {
                     setRestockQuantity(event.target.value);
                     setDialogError(null);
                   }}
-                  className="w-full rounded-2xl border border-[#171717]/20 bg-[#F4F1EA] px-4 py-3 outline-none transition-colors focus:border-[#E56B45]"
+                  className="maison-form-input maison-form-input--compact"
                 />
               </div>
               {dialogError && (
-                <div
-                  role="alert"
-                  className="rounded-2xl border border-[#E56B45]/45 bg-[#E56B45]/10 px-4 py-3 text-sm leading-6"
-                >
+                <div role="alert" className="maison-feedback maison-feedback--error">
                   {dialogError}
                 </div>
               )}
-              <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <div className="maison-dialog__actions">
                 <button
                   type="button"
                   disabled={isMutating}
                   onClick={() => setRestockVehicleTarget(null)}
-                  className="rounded-full border border-[#171717]/20 px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] transition-colors hover:border-[#171717] hover:bg-[#171717] hover:text-[#F4F1EA] disabled:cursor-wait disabled:opacity-50 motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E56B45]"
+                  className="maison-button maison-button--quiet"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isMutating}
-                  className="rounded-full bg-[#171717] px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-[#F4F1EA] transition-[background-color,transform] hover:-translate-y-0.5 hover:bg-[#E56B45] disabled:cursor-wait disabled:opacity-50 motion-reduce:transition-none motion-reduce:hover:transform-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E56B45]"
+                  className="maison-button maison-button--primary"
                 >
                   {isMutating ? 'Restocking…' : 'Restock vehicle'}
                 </button>
@@ -841,8 +780,9 @@ export function AdminInventoryPage() {
         </div>
       )}
 
-      <footer className="mx-auto max-w-[1440px] border-t border-[#171717]/15 px-6 py-8 text-xs font-semibold uppercase tracking-[0.16em] text-[#171717]/55 lg:px-12">
-        Maison Motoring / Inventory operations, considered.
+      <footer className="maison-container maison-footer">
+        <span>Maison Motoring / Inventory operations, considered.</span>
+        <span>Est. 2026</span>
       </footer>
     </div>
   );

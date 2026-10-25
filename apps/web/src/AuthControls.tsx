@@ -10,24 +10,22 @@ export function AuthControls() {
     : 'Signed-in account';
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="maison-auth-controls">
       <a
         href="/purchases"
         aria-label="Purchase history"
-        className="hidden text-xs font-semibold uppercase tracking-[0.14em] underline decoration-[#E56B45] decoration-2 underline-offset-8 transition-colors hover:text-[#E56B45] sm:inline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
+        className="maison-link maison-auth-controls__history"
       >
         History
       </a>
-      <span className="hidden text-xs font-semibold uppercase tracking-[0.16em] text-[#171717]/55 sm:block">
-        {accountLabel}
-      </span>
+      <span className="maison-auth-controls__account">{accountLabel}</span>
       <button
         type="button"
         onClick={() => {
           signOut();
           navigateTo('/inventory');
         }}
-        className="rounded-full border border-[#171717]/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition-colors duration-200 hover:border-[#171717] hover:bg-[#171717] hover:text-[#F4F1EA] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E56B45]"
+        className="maison-button maison-button--quiet maison-auth-controls__logout"
       >
         Log out
       </button>
