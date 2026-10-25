@@ -340,10 +340,9 @@ describe('POST /api/vehicles/:id/purchase', () => {
 
     const response = await purchaseVehicle(user.id, Role.USER, vehicle.id, { quantity: 1 });
 
-    transactionSpy.mockRestore();
-
     expectInternalServerError(response);
     expect(transactionSpy).toHaveBeenCalledOnce();
+    transactionSpy.mockRestore();
 
     const persistedVehicle = await prisma.vehicle.findUnique({
       where: { id: vehicle.id },
