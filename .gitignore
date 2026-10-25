@@ -13,6 +13,5 @@ coverage/
 !.vscode/extensions.json
 *.tsbuildinfo
 
-# Local PostgreSQL volume and generated Prisma artifacts
+# Generated Prisma artifacts
 apps/api/prisma/generated/
-postgres-data/

@@ -7,15 +7,15 @@ The application is being developed incrementally using test-driven development.
 
 - `apps/api` — Express and Prisma backend workspace
 - `apps/web` — React, Vite, and Tailwind CSS frontend workspace
-- `docker-compose.yml` — local PostgreSQL service definition
+- `.env.example` — local development environment variable template
 
 ## Prerequisites
 
 - Node.js 26 or a compatible current LTS release
 - npm 11 or compatible npm version
-- Docker and Docker Compose for local PostgreSQL
+- PostgreSQL 18 or a compatible supported version
 
-Docker must be usable by the current user without running every command with `sudo`.
+PostgreSQL should be running locally and accepting connections on port `5432`.
 
 ## Initial setup
 
@@ -28,15 +28,19 @@ npm test
 npm run build
 ```
 
-The local database service can be started after Docker access is available:
+Create the local development role and database once, using the native PostgreSQL
+installation. The password prompt keeps the password out of the shell history:
 
 ```bash
-docker compose up -d postgres
-docker compose ps
+sudo -u postgres createuser --login --pwprompt inventory_app
+sudo -u postgres createdb --owner=inventory_app inventory_dev
+pg_isready -h localhost -p 5432
 ```
 
-PostgreSQL is bound to `127.0.0.1` only. No application database models or migrations have
-been added yet; those will be introduced with the relevant feature tests.
+Update the local `DATABASE_URL` in `.env` with the password chosen for `inventory_app`.
+PostgreSQL remains a local service and is not exposed by this project configuration. No
+application database models or migrations have been added yet; those will be introduced with
+the relevant feature tests.
 
 ## Development commands
 

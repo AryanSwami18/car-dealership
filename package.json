@@ -10,7 +10,6 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "compose:config": "docker compose --env-file .env.example config",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "npm run lint --workspaces --if-present",
