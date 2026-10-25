@@ -1,8 +1,7 @@
-
 Implement the Admin Inventory Management frontend feature for the Car Dealership Inventory System using TDD. Include tests and implementation together in one final feature commit, but do not commit or push anything.
 
 1. Inspect before coding
-Inspect:
+   Inspect:
 
 Current Git status and recent commits.
 Existing admin authorization and authentication context.
@@ -12,7 +11,7 @@ Current Maison Motoring design system.
 Use existing backend endpoints and exact request/response contracts. Do not invent endpoints or modify backend behavior as part of this frontend feature.
 
 2. Admin dashboard
-Add a protected /admin/inventory page that is accessible only to authenticated ADMIN users.
+   Add a protected /admin/inventory page that is accessible only to authenticated ADMIN users.
 
 Include:
 
@@ -28,14 +27,14 @@ Navigation to vehicle details when appropriate.
 Inspect the backend's actual fields and validation requirements before creating forms. Do not assume fields, enum values, or response shapes.
 
 3. Authorization and safety
-Enforce admin-only access in the frontend for user experience, while recognizing that the backend remains the security boundary.
-Do not rely on a client-side role check as authorization.
-Handle 401 and 403 responses safely.
-Prevent duplicate submissions while requests are in progress.
-Avoid exposing stack traces, secrets, or internal server details.
-Do not let delete or restock actions silently succeed when the API reports failure.
+   Enforce admin-only access in the frontend for user experience, while recognizing that the backend remains the security boundary.
+   Do not rely on a client-side role check as authorization.
+   Handle 401 and 403 responses safely.
+   Prevent duplicate submissions while requests are in progress.
+   Avoid exposing stack traces, secrets, or internal server details.
+   Do not let delete or restock actions silently succeed when the API reports failure.
 4. Design
-Maintain the Maison Motoring editorial visual identity:
+   Maintain the Maison Motoring editorial visual identity:
 
 Warm off-white #F4F1EA
 Ink #171717
@@ -47,13 +46,13 @@ Accessible dialogs, forms, focus states, and reduced-motion support
 Keep the dashboard practical and readable rather than over-animating administrative workflows.
 
 5. TDD and verification
-Write tests first and confirm expected failures.
-Implement the smallest change that passes.
-Cover admin access, unauthorized users, vehicle listing, create, edit, delete confirmation, restocking, validation, loading, and API failures.
-Run focused and full frontend tests, TypeScript, ESLint, Prettier, production build, and git diff --check.
-Review the final diff for unrelated changes and verify existing inventory, vehicle details, purchase, and purchase-history flows remain intact.
-Update README only if necessary. Preserve actual conversation/debugging history in PROMPTS.md; never fabricate records.
-Report changed files, verification results, Git status, and the proposed commit message. Do not commit or push.
+   Write tests first and confirm expected failures.
+   Implement the smallest change that passes.
+   Cover admin access, unauthorized users, vehicle listing, create, edit, delete confirmation, restocking, validation, loading, and API failures.
+   Run focused and full frontend tests, TypeScript, ESLint, Prettier, production build, and git diff --check.
+   Review the final diff for unrelated changes and verify existing inventory, vehicle details, purchase, and purchase-history flows remain intact.
+   Update README only if necessary. Preserve actual conversation/debugging history in PROMPTS.md; never fabricate records.
+   Report changed files, verification results, Git status, and the proposed commit message. Do not commit or push.
 
 …
 9:24 PM
@@ -89,8 +88,9 @@ admin-inventory.test.tsx
 Git status:
 
 ## main
- M apps/web/src/AppShell.tsx
- M apps/web/src/api/vehicles.ts
+
+M apps/web/src/AppShell.tsx
+M apps/web/src/api/vehicles.ts
 ?? apps/web/src/AdminInventoryPage.tsx
 ?? apps/web/tests/admin-inventory.test.tsx
 No backend files, README, or PROMPTS.md were modified.
@@ -128,12 +128,12 @@ Show 1 more file
 Harden the Car Dealership Inventory System backend for reliable local development and eventual AWS deployment. Follow TDD and include tests plus implementation in one feature commit. Do not commit or push anything.
 
 1. Inspect the existing backend
-Inspect the repository structure, Git status, recent commits, backend entry points, package scripts, Prisma schema, authentication middleware, route handlers, environment configuration, CORS setup, and existing tests.
+   Inspect the repository structure, Git status, recent commits, backend entry points, package scripts, Prisma schema, authentication middleware, route handlers, environment configuration, CORS setup, and existing tests.
 
 Preserve all existing work. Do not assume earlier review findings are still present; verify each one against the current code before changing it.
 
 2. Fix confirmed issues
-Prioritize these areas, but implement only what is actually missing or defective:
+   Prioritize these areas, but implement only what is actually missing or defective:
 
 Environment configuration
 Load environment variables consistently for development, tests, and production.
@@ -162,14 +162,12 @@ Purchase and inventory safety
 Verify purchase transactions prevent overselling under concurrent requests.
 Verify restocking and purchase quantities cannot cause unsafe integer or stock overflow.
 Preserve purchase-time price snapshots and historical records.
-Ensure vehicle deletion respects existing purchase-history constraints.
-3. TDD workflow
+Ensure vehicle deletion respects existing purchase-history constraints. 3. TDD workflow
 Add regression tests first and run them to confirm expected failures.
 Implement fixes in small, coherent changes.
 Run the full backend and frontend test suites, TypeScript checks, ESLint, Prettier, production builds, and git diff --check as applicable.
 Verify database migrations and tests against the dedicated test database without deleting or modifying development data.
-Review all changed files and document any remaining risks.
-4. Documentation and delivery
+Review all changed files and document any remaining risks. 4. Documentation and delivery
 Update README setup instructions, environment-variable documentation, test commands, and relevant API notes. Update PROMPTS.md only with actual conversation/debugging records available to you; never fabricate a transcript.
 
 Report:
@@ -344,10 +342,12 @@ git diff --check: passed.
 A browser screenshot could not be captured because local browser use is disabled in the current Work settings.
 
 Git status
+
 ## main
- M apps/web/src/AppShell.tsx
- M apps/web/src/index.css
- M apps/web/tests/landing.test.tsx
+
+M apps/web/src/AppShell.tsx
+M apps/web/src/index.css
+M apps/web/tests/landing.test.tsx
 PROMPTS.md was not modified because no raw conversation record was available to preserve without fabrication.
 
 Suggested commit message:
@@ -480,12 +480,12 @@ Lightweight motion and page/component transitions.
 Prioritize finishing quickly, preserving functionality, and verifying the complete application. Do not commit, push, or deploy.
 
 1. Inspect the current project
-Check Git status and recent commits.
-Review AppShell.tsx, AuthPages.tsx, AuthControls.tsx, PurchaseHistoryPage.tsx, AdminInventoryPage.tsx, index.css, existing UI components, tests, and dependencies.
-Preserve all existing work, including uncommitted Inventory and Vehicle Details polish.
-Reuse the existing Maison design tokens and MaisonVehicleArt.tsx rather than introducing another design system.
+   Check Git status and recent commits.
+   Review AppShell.tsx, AuthPages.tsx, AuthControls.tsx, PurchaseHistoryPage.tsx, AdminInventoryPage.tsx, index.css, existing UI components, tests, and dependencies.
+   Preserve all existing work, including uncommitted Inventory and Vehicle Details polish.
+   Reuse the existing Maison design tokens and MaisonVehicleArt.tsx rather than introducing another design system.
 2. Unify the remaining pages
-Bring Registration, Login, Purchase History, and Admin Inventory into the same Maison Motoring visual system.
+   Bring Registration, Login, Purchase History, and Admin Inventory into the same Maison Motoring visual system.
 
 Design direction:
 
@@ -509,15 +509,14 @@ Keep dense administrative content readable and usable on mobile.
 Do not rebuild working features or change API contracts.
 
 3. Add lightweight motion
-Inspect existing dependencies first.
+   Inspect existing dependencies first.
 
 If Motion for React is already installed, reuse it.
 Otherwise, add it only if it can be integrated cleanly without destabilizing the project. If installation is unavailable or would take too long, use lightweight CSS transitions instead.
 Add restrained page transitions and small entrance/hover interactions where they improve usability.
 Avoid large animation refactors, complex scroll choreography, and unnecessary animation dependencies.
 Do not add GSAP or Lenis in this pass. They are not necessary to finish the project.
-Respect prefers-reduced-motion; avoid animating essential content in ways that delay access.
-4. Testing and regression protection
+Respect prefers-reduced-motion; avoid animating essential content in ways that delay access. 4. Testing and regression protection
 Use the existing test setup. Add or update focused tests for any behavior changed.
 
 Run:
@@ -532,12 +531,12 @@ git diff --check.
 Verify registration, login, logout, purchase history, admin inventory operations, and the existing inventory/purchase flows still work.
 
 5. Finish and report
-Keep the implementation focused; prefer reusing existing components and CSS tokens.
-Do not change the Prisma schema or backend API contracts.
-Do not create fake conversation/debugging records in PROMPTS.md.
-Do not commit, push, deploy, reset, or discard any work.
-Preserve every existing modification and report the final Git status.
-Report changed files, actual verification results, any checks not run, and a suggested single feature-commit message containing the relevant tests and implementation. I will review and commit manually.
+   Keep the implementation focused; prefer reusing existing components and CSS tokens.
+   Do not change the Prisma schema or backend API contracts.
+   Do not create fake conversation/debugging records in PROMPTS.md.
+   Do not commit, push, deploy, reset, or discard any work.
+   Preserve every existing modification and report the final Git status.
+   Report changed files, actual verification results, any checks not run, and a suggested single feature-commit message containing the relevant tests and implementation. I will review and commit manually.
 
 …
 9:43 PM
@@ -571,11 +570,12 @@ API tests were attempted but could not complete because PostgreSQL is not reacha
 Git status:
 
 ## main
- M apps/web/src/AdminInventoryPage.tsx
- M apps/web/src/AuthControls.tsx
- M apps/web/src/AuthPages.tsx
- M apps/web/src/PurchaseHistoryPage.tsx
- M apps/web/src/index.css
+
+M apps/web/src/AdminInventoryPage.tsx
+M apps/web/src/AuthControls.tsx
+M apps/web/src/AuthPages.tsx
+M apps/web/src/PurchaseHistoryPage.tsx
+M apps/web/src/index.css
 Nothing was committed, pushed, deployed, reset, or discarded.
 
 Suggested commit:
@@ -647,9 +647,11 @@ npm test --workspace @car-dealership/api
 Only create missing roles/databases; do not reset inventory_dev.
 
 Git status
+
 ## main
- M PROMPTS.md
- M README.md
+
+M PROMPTS.md
+M README.md
 ?? apps/api/.env.test.example
 No commit, push, deployment, or data deletion was performed.
 
@@ -676,6 +678,3 @@ apps/api/
 +11
 -0
 9:50 PM
-
-
-
